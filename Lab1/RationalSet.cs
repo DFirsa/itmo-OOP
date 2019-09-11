@@ -23,12 +23,8 @@ namespace Lab1
             Rational max = set[0];
 
             for (int i = 0; i < set.Count; i++)
-            {
                 if (set[i] > max)
-                {
                     max = set[i];
-                }
-            }
 
             return max;
         }
@@ -38,12 +34,8 @@ namespace Lab1
             Rational min = set[0];
 
             for (int i = 0; i < set.Count; i++)
-            {
                 if (set[i] < min)
-                {
                     min = set[i];
-                }
-            }
 
             return min;
         }
@@ -53,12 +45,8 @@ namespace Lab1
             int counter = 0;
 
             for (int i = 0; i < set.Count; i++)
-            {
                 if (set[i] > val)
-                {
                     counter++;
-                }
-            }
 
             return counter;
         }
@@ -68,12 +56,8 @@ namespace Lab1
             int counter = 0;
 
             for (int i = 0; i < set.Count; i++)
-            {
                 if (set[i] < val)
-                {
                     counter++;
-                }
-            }
 
             return counter;
         }
@@ -84,11 +68,8 @@ namespace Lab1
             {
                 string[] line;
                 while ((line = reader.ReadLine().Split('/')) != null)
-                {
                     add(new Rational(Int32.Parse(line[0]), Int32.Parse(line[1])));
-                }
             }
         }
-
     }
 }

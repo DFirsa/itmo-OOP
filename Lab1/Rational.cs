@@ -20,10 +20,9 @@ namespace Lab1
 
         public static bool operator >(Rational firstVal, Rational secondVal)
         {
-
             long first = firstVal.num;
             long second = secondVal.num;
-      
+
             if (firstVal.denum != secondVal.denum)
             {
                 first *= secondVal.denum;
@@ -56,14 +55,10 @@ namespace Lab1
                     denum /= devider;
                     break;
                 }
-                else
-                {
-                    devider--;
-                }
+                else devider--;
             }
 
             return new Rational(num, denum);
         }
-
     }
 }

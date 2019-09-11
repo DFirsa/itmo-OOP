@@ -2,11 +2,8 @@
 {
     public class Polynomial
     {
-
         public static Polynomial operator +(Polynomial firstPol, Polynomial secondPol)
         {
-            
         }
-        
     }
 }
