@@ -13,7 +13,7 @@ namespace Lab1
             this.denum = denum;
         }
 
-        public void check()
+        public void Check()
         {
             Console.WriteLine(num + " " + denum);
         }

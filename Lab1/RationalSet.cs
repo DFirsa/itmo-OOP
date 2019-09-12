@@ -13,12 +13,12 @@ namespace Lab1
             set = new List<Rational>();
         }
 
-        public void add(Rational rational)
+        public void Add(Rational rational)
         {
             set.Add(rational);
         }
 
-        public Rational getMax()
+        public Rational GetMax()
         {
             Rational max = set[0];
 
@@ -29,46 +29,46 @@ namespace Lab1
             return max;
         }
 
-        public Rational getMin()
+        public Rational GetMin()
         {
             Rational min = set[0];
 
-            for (int i = 0; i < set.Count; i++)
-                if (set[i] < min)
-                    min = set[i];
+            foreach (var val in set)
+                if (val < min)
+                    min = val;
 
             return min;
         }
 
-        public int countMoreThen(Rational val)
+        public int CountMoreThen(Rational val)
         {
             int counter = 0;
 
-            for (int i = 0; i < set.Count; i++)
-                if (set[i] > val)
+            foreach (var rat in set)
+                if (rat > val)
                     counter++;
 
             return counter;
         }
 
-        public int countLessThen(Rational val)
+        public int CountLessThen(Rational val)
         {
             int counter = 0;
 
-            for (int i = 0; i < set.Count; i++)
-                if (set[i] < val)
+            foreach (var rat in set)
+                if (rat < val)
                     counter++;
 
             return counter;
         }
 
-        public void load(string path)
+        public void Load(string path)
         {
             using (StreamReader reader = new StreamReader(path, System.Text.Encoding.Default))
             {
                 string[] line;
                 while ((line = reader.ReadLine().Split('/')) != null)
-                    add(new Rational(Int32.Parse(line[0]), Int32.Parse(line[1])));
+                    Add(new Rational(Int32.Parse(line[0]), Int32.Parse(line[1])));
             }
         }
     }
