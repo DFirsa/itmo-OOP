@@ -15,7 +15,7 @@ namespace Lab1
 
         public void Check()
         {
-            Console.WriteLine(num + " " + denum);
+            Console.WriteLine(num + "/" + denum);
         }
 
         public static bool operator >(Rational firstVal, Rational secondVal)

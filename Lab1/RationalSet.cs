@@ -71,5 +71,10 @@ namespace Lab1
                     Add(new Rational(Int32.Parse(line[0]), Int32.Parse(line[1])));
             }
         }
+
+        public List<Rational> GetCollection()
+        {
+            return set;
+        }
     }
 }
