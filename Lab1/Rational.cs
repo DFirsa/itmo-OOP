@@ -13,7 +13,7 @@ namespace Lab1
             this.denum = denum;
         }
 
-        public void Check()
+        public void Show()
         {
             Console.WriteLine(num + "/" + denum);
         }
@@ -34,7 +34,16 @@ namespace Lab1
 
         public static bool operator <(Rational firstVal, Rational secondVal)
         {
-            return !(firstVal > secondVal);
+            long first = firstVal.num;
+            long second = secondVal.num;
+
+            if (firstVal.denum != secondVal.denum)
+            {
+                first *= secondVal.denum;
+                second *= firstVal.denum;
+            }
+
+            return first < second;
         }
 
         public static Rational operator +(Rational firstVal, Rational secondVal)

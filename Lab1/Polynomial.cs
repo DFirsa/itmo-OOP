@@ -36,5 +36,10 @@ namespace Lab1
             
             return new Polynomial(resultCoefs);
         }
+
+        public RationalSet GetCoefsSet()
+        {
+            return coefs;
+        }
     }
 }

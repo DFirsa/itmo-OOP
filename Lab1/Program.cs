@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Lab1
 {
@@ -6,8 +7,7 @@ namespace Lab1
     {
         public static void Main(string[] args)
         {
-            RationalSet rSet = new RationalSet();
-            rSet.Load("C:\\Users\\User\\Desktop\\Lab1");
+            
         }
     }
 }

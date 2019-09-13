@@ -66,9 +66,12 @@ namespace Lab1
         {
             using (StreamReader reader = new StreamReader(path, System.Text.Encoding.Default))
             {
-                string[] line;
-                while ((line = reader.ReadLine().Split('/')) != null)
-                    Add(new Rational(Int32.Parse(line[0]), Int32.Parse(line[1])));
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    string[] lines = line.Split('/');
+                    Add(new Rational(Int32.Parse(lines[0]), Int32.Parse(lines[1])));
+                }
             }
         }
 
