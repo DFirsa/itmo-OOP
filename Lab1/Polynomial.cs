@@ -41,5 +41,13 @@ namespace Lab1
         {
             return coefs;
         }
+
+        public void Show()
+        {
+            Console.WriteLine("Polynomial:");
+            foreach (var rat in coefs.GetCollection())
+                rat.Show();
+            Console.WriteLine();
+        }
     }
 }

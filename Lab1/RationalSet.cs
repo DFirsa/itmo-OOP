@@ -7,36 +7,42 @@ namespace Lab1
     public class RationalSet
     {
         private List<Rational> set;
+        
+        private Rational max;
+        private Rational min;
+
+        private bool isEmpty;
 
         public RationalSet()
         {
             set = new List<Rational>();
+            isEmpty = true;
         }
 
         public void Add(Rational rational)
         {
             set.Add(rational);
+            if (isEmpty)
+            {
+                isEmpty = false;
+                max = rational;
+                min = rational;
+            }
+            else
+            {
+                if (rational < min) min = rational;
+                if (rational > max) max = rational;
+            }
+
         }
 
         public Rational GetMax()
         {
-            Rational max = set[0];
-
-            for (int i = 0; i < set.Count; i++)
-                if (set[i] > max)
-                    max = set[i];
-
             return max;
         }
 
         public Rational GetMin()
         {
-            Rational min = set[0];
-
-            foreach (var val in set)
-                if (val < min)
-                    min = val;
-
             return min;
         }
 
