@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Lab1
 {
@@ -18,7 +19,7 @@ namespace Lab1
             Console.Write(num + "/" + denum + " ");
         }
 
-        public static bool operator >(Rational firstVal, Rational secondVal)
+        private static List<long> ToSameDenum(Rational firstVal, Rational secondVal)
         {
             long first = firstVal.num;
             long second = secondVal.num;
@@ -28,22 +29,22 @@ namespace Lab1
                 first *= secondVal.denum;
                 second *= firstVal.denum;
             }
+            
+            List<long> result = new List<long>();
+            result.Add(first);
+            result.Add(second);
 
-            return first > second;
+            return result;
+        }
+
+        public static bool operator >(Rational firstVal, Rational secondVal)
+        {
+            return ToSameDenum(firstVal,secondVal)[0] > ToSameDenum(firstVal, secondVal)[1];
         }
 
         public static bool operator <(Rational firstVal, Rational secondVal)
         {
-            long first = firstVal.num;
-            long second = secondVal.num;
-
-            if (firstVal.denum != secondVal.denum)
-            {
-                first *= secondVal.denum;
-                second *= firstVal.denum;
-            }
-
-            return first < second;
+            return ToSameDenum(firstVal,secondVal)[0] < ToSameDenum(firstVal, secondVal)[1];
         }
 
         public static Rational operator +(Rational firstVal, Rational secondVal)
@@ -53,7 +54,15 @@ namespace Lab1
 
             int num = firstNum + secondNum;
             int denum = firstVal.denum * secondVal.denum;
+            
+            Rational result = new Rational(num, denum);
+            result.FractionReduction();
 
+            return result;
+        }
+
+        public void FractionReduction()
+        {
             int devider = Math.Min(num, denum);
 
             while (devider > 1)
@@ -66,8 +75,6 @@ namespace Lab1
                 }
                 else devider--;
             }
-
-            return new Rational(num, denum);
         }
     }
 }

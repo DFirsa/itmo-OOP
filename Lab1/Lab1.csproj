@@ -45,6 +45,7 @@
     <Compile Include="RationalSet.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Fractions.txt" />
     <Content Include="tested.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

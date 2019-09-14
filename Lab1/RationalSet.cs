@@ -7,7 +7,7 @@ namespace Lab1
     public class RationalSet
     {
         private List<Rational> set;
-        
+
         private Rational max;
         private Rational min;
 
@@ -33,17 +33,18 @@ namespace Lab1
                 if (rational < min) min = rational;
                 if (rational > max) max = rational;
             }
-
         }
 
         public Rational GetMax()
         {
-            return max;
+            if (isEmpty) throw new NullReferenceException();
+            else return max;
         }
 
         public Rational GetMin()
         {
-            return min;
+            if (isEmpty) throw new NullReferenceException();
+            else return min;
         }
 
         public int CountMoreThen(Rational val)
@@ -70,13 +71,35 @@ namespace Lab1
 
         public void Load(string path)
         {
-            using (StreamReader reader = new StreamReader(path, System.Text.Encoding.Default))
+            using (StreamReader reader = new StreamReader(path))
             {
                 string line;
                 while ((line = reader.ReadLine()) != null)
                 {
                     string[] lines = line.Split('/');
-                    Add(new Rational(Int32.Parse(lines[0]), Int32.Parse(lines[1])));
+                    lines[0].Replace(" ", "");
+                    lines[1].Replace(" ", "");
+
+                    if (lines.Length != 2) continue;
+
+                    int num, denum;
+                    try
+                    {
+                        num = Int32.Parse(lines[0]);
+                        denum = Int32.Parse(lines[1]);
+                    }
+                    catch (FormatException)
+                    {
+                        continue;
+                    }
+
+                    if (denum == 0)
+                    {
+                        Console.WriteLine("Invalid fraction format: num = " + num + ", denum = " + denum);
+                        continue;
+                    }
+
+                    Add(new Rational(num, denum));
                 }
             }
         }
