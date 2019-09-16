@@ -13,9 +13,9 @@ namespace Lab1
             try
             {
                 Console.Write("Max: ");
-                set.GetMax().Show();
-                Console.Write("\nMin: ");
-                set.GetMin().Show();
+                Console.WriteLine(set.GetMax().ToString());
+                Console.Write("Min: ");
+                Console.WriteLine(set.GetMin().ToString());
             }
             catch (NullReferenceException)
             {
@@ -23,17 +23,14 @@ namespace Lab1
             }
 
             Rational rat = new Rational(1,2);
-            
-            Console.Write("\nCount fractions more then  ");
-            rat.Show();
-            Console.Write(" : " + set.CountMoreThen(rat) + "\nCount fractions less then ");
-            rat.Show();
-            Console.WriteLine(" : " + set.CountLessThen(rat) );
+
+            Console.WriteLine($"Count fractions more then {rat.ToString()} : {set.CountMoreThen(rat)}");
+            Console.WriteLine($"Count fractions less then {rat.ToString()} : {set.CountLessThen(rat)}");
             
             Polynomial pol = new Polynomial(set);
-            pol.Show();
+            Console.WriteLine("Polynomial:\n" + pol.ToString());
             Console.WriteLine("sum");
-            (pol + pol).Show();
+            Console.WriteLine("Polynomial:\n" + (pol + pol).ToString());
         }
     }
 }

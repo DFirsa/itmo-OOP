@@ -12,28 +12,20 @@ namespace Lab1
             coefs = coefsList;
         }
 
-        public List<Rational> GetCoefsList()
-        {
-            return coefs.GetCollection();
-        }
-
         public static Polynomial operator +(Polynomial firstPol, Polynomial secondPol)
         {
             RationalSet resultCoefs = new RationalSet();
 
-            List<Rational> firstCollection = firstPol.GetCoefsList();
-            List<Rational> secondCollection = secondPol.GetCoefsList();
+            for (int i = 0; i < Math.Min(firstPol.coefs.set.Count, secondPol.coefs.set.Count); i++)
+                resultCoefs.Add(firstPol.coefs.set[i] + secondPol.coefs.set[i]);
 
-            for (int i = 0; i < Math.Min(firstCollection.Count, secondCollection.Count); i++)
-                resultCoefs.Add(firstCollection[i] + secondCollection[i]);
+            if (firstPol.coefs.set.Count < secondPol.coefs.set.Count)
+                for (int i = firstPol.coefs.set.Count; i < secondPol.coefs.set.Count; i++)
+                    resultCoefs.Add(secondPol.coefs.set[i]);
+            else
+                for (int i = secondPol.coefs.set.Count; i < firstPol.coefs.set.Count; i++)
+                    resultCoefs.Add(firstPol.coefs.set[i]);
 
-            if (firstCollection.Count < secondCollection.Count)
-                for (int i = firstCollection.Count; i < secondCollection.Count; i++)
-                    resultCoefs.Add(secondCollection[i]);
-            else if (firstCollection.Count != secondCollection.Count)
-                for (int i = secondCollection.Count; i < firstCollection.Count; i++)
-                    resultCoefs.Add(firstCollection[i]);
-            
             return new Polynomial(resultCoefs);
         }
 
@@ -42,12 +34,13 @@ namespace Lab1
             return coefs;
         }
 
-        public void Show()
+        public override string ToString()
         {
-            Console.WriteLine("Polynomial:");
-            foreach (var rat in coefs.GetCollection())
-                rat.Show();
-            Console.WriteLine();
+            string polynomial = "";
+            foreach (var rat in coefs.set)
+                polynomial += rat.ToString();
+
+            return polynomial;
         }
     }
 }

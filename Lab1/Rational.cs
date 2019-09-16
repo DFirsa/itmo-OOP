@@ -10,13 +10,17 @@ namespace Lab1
 
         public Rational(int num, int denum)
         {
-            this.num = num;
-            this.denum = denum;
+            if (denum != 0)
+            {
+                this.num = num;
+                this.denum = denum;   
+            }
+//            else throw new 
         }
 
-        public void Show()
+        public override string ToString()
         {
-            Console.Write(num + "/" + denum + " ");
+            return $"{num}/{denum} ";
         }
 
         private static List<long> ToSameDenum(Rational firstVal, Rational secondVal)
