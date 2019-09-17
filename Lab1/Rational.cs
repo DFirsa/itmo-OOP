@@ -1,8 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace Lab1
 {
+    public struct Pair
+    {
+        public long first;
+        public long second;
+
+        public Pair(long first, long second)
+        {
+            this.first = first;
+            this.second = second;
+        }
+    }
     public class Rational
     {
         private int num;
@@ -15,7 +27,7 @@ namespace Lab1
                 this.num = num;
                 this.denum = denum;   
             }
-//            else throw new 
+            else throw new FormatException();
         }
 
         public override string ToString()
@@ -23,7 +35,7 @@ namespace Lab1
             return $"{num}/{denum} ";
         }
 
-        private static List<long> ToSameDenum(Rational firstVal, Rational secondVal)
+        private static Pair ToSameDenum(Rational firstVal, Rational secondVal)
         {
             long first = firstVal.num;
             long second = secondVal.num;
@@ -33,22 +45,20 @@ namespace Lab1
                 first *= secondVal.denum;
                 second *= firstVal.denum;
             }
-            
-            List<long> result = new List<long>();
-            result.Add(first);
-            result.Add(second);
 
-            return result;
+            return new Pair(first, second);
         }
 
         public static bool operator >(Rational firstVal, Rational secondVal)
         {
-            return ToSameDenum(firstVal,secondVal)[0] > ToSameDenum(firstVal, secondVal)[1];
+            Pair nums = ToSameDenum(firstVal, secondVal);
+            return nums.first > nums.second;
         }
 
         public static bool operator <(Rational firstVal, Rational secondVal)
         {
-            return ToSameDenum(firstVal,secondVal)[0] < ToSameDenum(firstVal, secondVal)[1];
+            Pair nums = ToSameDenum(firstVal, secondVal);
+            return nums.first < nums.second;
         }
 
         public static Rational operator +(Rational firstVal, Rational secondVal)
@@ -59,13 +69,10 @@ namespace Lab1
             int num = firstNum + secondNum;
             int denum = firstVal.denum * secondVal.denum;
             
-            Rational result = new Rational(num, denum);
-            result.FractionReduction();
-
-            return result;
+            return new Rational(num, denum).FractionReduction();
         }
 
-        public void FractionReduction()
+        public Rational FractionReduction()
         {
             int devider = Math.Min(num, denum);
 
@@ -79,6 +86,8 @@ namespace Lab1
                 }
                 else devider--;
             }
+
+            return this;
         }
     }
 }

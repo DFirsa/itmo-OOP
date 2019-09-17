@@ -35,13 +35,13 @@ namespace Lab1
 
         public Rational GetMax()
         {
-            if (set.Count == 0) throw new NullReferenceException();
+            if (set.Count == 0) throw new InvalidOperationException();
             else return max;
         }
 
         public Rational GetMin()
         {
-            if (set.Count == 0) throw new NullReferenceException();
+            if (set.Count == 0) throw new InvalidOperationException();
             else return min;
         }
 
@@ -67,8 +67,10 @@ namespace Lab1
             return counter;
         }
 
-        public void Load(string path)
+        public static RationalSet Load(string path)
         {
+            RationalSet set = new RationalSet();
+            
             using (StreamReader reader = new StreamReader(path))
             {
                 string line;
@@ -82,15 +84,18 @@ namespace Lab1
                     if (!Int32.TryParse(lines[0].Trim(), out num) ||
                         !Int32.TryParse(lines[1].Trim(), out denum)) continue;
 
-                    if (denum == 0)
+                    try
+                    {
+                        set.Add(new Rational(num, denum));
+                    }
+                    catch (FormatException)
                     {
                         Console.WriteLine($"Invalid fraction format: num = {num} , denum = {denum}");
-                        continue;
                     }
-
-                    Add(new Rational(num, denum));
                 }
             }
+
+            return set;
         }
     }
 }

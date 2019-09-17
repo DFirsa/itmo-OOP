@@ -7,9 +7,7 @@ namespace Lab1
     {
         public static void Main(string[] args)
         {
-            RationalSet set = new RationalSet();
-            set.Load("..\\..\\Fractions.txt");
-
+            RationalSet set = RationalSet.Load("..\\..\\Fractions.txt");
             try
             {
                 Console.Write("Max: ");
@@ -17,7 +15,7 @@ namespace Lab1
                 Console.Write("Min: ");
                 Console.WriteLine(set.GetMin().ToString());
             }
-            catch (NullReferenceException)
+            catch (InvalidOperationException)
             {
                 Console.WriteLine("SET IS EMPTY");
             }
