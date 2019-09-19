@@ -1,0 +1,8 @@
+﻿g Rock
+s Rock Alternative
+s Rock Hard
+s Rock Indi
+g Hip-Hop
+s Hip-Hop Grime
+s Hip-Hop Rap
+s Hip-Hop Trap

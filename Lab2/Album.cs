@@ -6,19 +6,27 @@ namespace Lab2
     public class Album
     {
         private List<Track> trackList;
-        private Artist artist;
-        private Genre genre;
+        private string name;
+        
+        public readonly Artist artist;
+        public readonly Genre genre;
 
-        public Album(Artist artist, Genre genre)
+        public Album(Artist artist, Genre genre, string name)
         {
             trackList = new List<Track>();
             this.artist = artist;
             this.genre = genre;
+            this.name = name;
         }
 
         public void AddTrack(Track track)
         {
             trackList.Add(track);
+        }
+
+        public override string ToString()
+        {
+            return $"{artist.ToString()}, album : {name}";
         }
     }
 }

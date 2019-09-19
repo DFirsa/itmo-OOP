@@ -14,5 +14,10 @@ namespace Lab2
             this.duration = duration;
             album.AddTrack(this);
         }
+
+        public override string ToString()
+        {
+            return $"{name} - {album.ToString()}, {duration / 60}:{duration % 60}";
+        }
     }
 }
