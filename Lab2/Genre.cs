@@ -7,8 +7,16 @@ namespace Lab2
         private string name;
         private List<Genre> subgenre;
         private Genre parentGenre;
-        
-        public Genre(){}
+
+        public Genre(string name)
+        {
+            this.name = name;
+        }
+
+        public void AddSubgenre(Genre gen)
+        {
+            subgenre.Add(gen);
+        }
 
 //        public override bool Equals(string name)
 //        {
@@ -22,5 +30,12 @@ namespace Lab2
 //            return false;
 //        }
 
+        public override bool Equals(Genre genre)
+        {
+            Queue<Genre> genreQueue = new Queue<Genre>();
+            foreach (var gen in subgenre) genreQueue.Enqueue(gen);
+            
+            
+        }
     }
 }
