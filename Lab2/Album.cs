@@ -2,31 +2,25 @@ using System.Collections.Generic;
 
 namespace Lab2
 {
-    //TODO delete tracklist mb
     public class Album
     {
-        private List<Track> trackList;
-        private string name;
+        private readonly List<Track> trackList;
+//        private Genre genre;
+        private short year;
         
-        public readonly Artist artist;
-        public readonly Genre genre;
+        public readonly string name;
 
-        public Album(Artist artist, Genre genre, string name)
+        public Album(string albumName, short year)
         {
+            name = albumName;
+            this.year = year;
+            
             trackList = new List<Track>();
-            this.artist = artist;
-            this.genre = genre;
-            this.name = name;
         }
 
-        public void AddTrack(Track track)
+        public void AddTrack(string trackName, int durationMin, int durationSec)
         {
-            trackList.Add(track);
-        }
-
-        public override string ToString()
-        {
-            return $"{artist.ToString()}, album : {name}";
+            trackList.Add(new Track(trackName, durationMin, durationSec));
         }
     }
 }

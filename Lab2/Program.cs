@@ -1,7 +1,9 @@
-namespace Lab2
+﻿namespace Lab2
 {
-    public class Program
+    internal class Program
     {
-        
+        public static void Main(string[] args)
+        {
+        }
     }
 }

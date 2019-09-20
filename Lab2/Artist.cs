@@ -4,17 +4,28 @@ namespace Lab2
 {
     public class Artist
     {
-        private string name;
-        private List<Album> albumList;
+        public readonly string name;
+        
+        private readonly List<Album> albumList;
 
         public Artist(string name)
         {
             this.name = name;
+            albumList = new List<Album>();
         }
 
-        public override string ToString()
+        public void AddAlbum(Album album)
         {
-            return name;
+            albumList.Add(album);
+        }
+
+        public Album GetAlbum(string name)
+        {
+            foreach (var album in albumList)
+                if (album.name.ToLower().Trim().Equals(name.ToLower().Trim()))
+                    return album;
+
+            return null;
         }
     }
 }
