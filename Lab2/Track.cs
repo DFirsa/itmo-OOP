@@ -1,23 +1,19 @@
-
 namespace Lab2
 {
     public class Track
     {
-        private int duration;
-        private Album album;
         private string name;
+        private long duration; //at sec
 
-        public Track(Album album, string name, int duration)
+        public Track(string name, int min, int sec)
         {
-            this.album = album;
             this.name = name;
-            this.duration = duration;
-            album.AddTrack(this);
+            this.duration = min * 60 + sec;
         }
 
         public override string ToString()
         {
-            return $"{name} - {album.ToString()}, {duration / 60}:{duration % 60}";
+            return $"{name} {duration / 60}:{duration % 60}";
         }
     }
 }

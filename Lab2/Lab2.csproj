@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2795DD64-76EF-455D-8440-4D964CC32BA6}</ProjectGuid>
+    <ProjectGuid>{5097A4EC-C4D3-416C-964D-EAEC5DD04B82}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Lab2</RootNamespace>
@@ -41,15 +41,12 @@
     <Compile Include="Album.cs" />
     <Compile Include="Artist.cs" />
     <Compile Include="Catalogue.cs" />
-    <Compile Include="Genre.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SearchEngine.cs" />
     <Compile Include="Track.cs" />
-    <Compile Include="TrackCompilation.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Genres.txt" />
+    <Content Include="Songs.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
