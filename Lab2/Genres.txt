@@ -1,0 +1,8 @@
+﻿g / Rock
+s / Rock / Indie
+s / Rock / Alternative
+g / Pop
+g / Hip-Hop
+s / Hip-Hop / Grime
+s / Hip-Hop / Trap
+s / Rock / Russian Rock

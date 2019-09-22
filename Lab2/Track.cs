@@ -4,11 +4,13 @@ namespace Lab2
     {
         private string name;
         private long duration; //at sec
+        private Album album;
 
-        public Track(string name, int min, int sec)
+        public Track(string name, int min, int sec, Album album)
         {
             this.name = name;
             this.duration = min * 60 + sec;
+            this.album = album;
         }
 
         public override string ToString()

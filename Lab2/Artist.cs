@@ -27,5 +27,10 @@ namespace Lab2
 
             return null;
         }
+
+        public override string ToString()
+        {
+            return name;
+        }
     }
 }
