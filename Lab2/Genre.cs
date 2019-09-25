@@ -4,7 +4,7 @@ namespace Lab2
 {
     public class Genre
     {
-        private string name;
+        public readonly string name;
         private List<Genre> subgenres;
 
         public Genre(string name)
@@ -37,6 +37,11 @@ namespace Lab2
             }
 
             return false;
+        }
+
+        public override string ToString()
+        {
+            return name;
         }
     }
 }
