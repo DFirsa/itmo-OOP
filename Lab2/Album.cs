@@ -5,8 +5,8 @@ namespace Lab2
     public class Album
     {
         private readonly List<Track> trackList;
-        private Genre genre;
-        private short year;
+        public readonly Genre genre;
+        public readonly short year;
         
         public readonly string name;
 

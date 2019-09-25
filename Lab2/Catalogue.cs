@@ -7,8 +7,8 @@ namespace Lab2
 {
     public class Catalogue
     {
-        private List<Artist> data;
-        private List<Genre> genres;
+        public readonly List<Artist> data;
+        public readonly List<Genre> genres;
 
         public Catalogue()
         {

@@ -5,8 +5,7 @@ namespace Lab2
     public class Artist
     {
         public readonly string name;
-        
-        private readonly List<Album> albumList;
+        public readonly List<Album> albumList;
 
         public Artist(string name)
         {
