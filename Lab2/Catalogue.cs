@@ -39,7 +39,7 @@ namespace Lab2
             string[] time = trackInfo[4].Trim().Split(':');
             int min, sec;
             Int32.TryParse(time[0].Trim(), out min);
-            Int32.TryParse(time[0].Trim(), out sec);
+            Int32.TryParse(time[1].Trim(), out sec);
             album.AddTrack(trackInfo[0].Trim(), min, sec);
         }
 
@@ -135,19 +135,5 @@ namespace Lab2
             return catalogue;
         }
 
-        public void ShowInfo()
-        {
-            foreach (var artist in data)
-            {
-                Console.WriteLine(artist.ToString());
-            }
-            
-            Console.WriteLine("=== GENRES ====");
-            
-            foreach (var genre in genres)
-            {
-                Console.WriteLine(genre.ToString());
-            }
-        }
     }
 }

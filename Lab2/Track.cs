@@ -3,19 +3,21 @@ namespace Lab2
     public class Track
     {
         private string name;
-        private long duration; //at sec
+        private int durationMin;
+        private int durationSec;
         private Album album;
 
         public Track(string name, int min, int sec, Album album)
         {
             this.name = name;
-            this.duration = min * 60 + sec;
+            this.durationMin = min;
+            this.durationSec = sec;
             this.album = album;
         }
 
         public override string ToString()
         {
-            return $"{name} {duration / 60}:{duration % 60}";
+            return $"{name} {durationMin}:{durationSec}";
         }
     }
 }

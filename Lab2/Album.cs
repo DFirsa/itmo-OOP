@@ -4,7 +4,7 @@ namespace Lab2
 {
     public class Album
     {
-        private readonly List<Track> trackList;
+        public readonly List<Track> trackList;
         public readonly Genre genre;
         public readonly short year;
         
