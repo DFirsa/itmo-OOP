@@ -94,5 +94,21 @@ namespace Lab2
             else
                 throw new InstanceNotFoundException();
         }
+
+        public static List<Album> SearchAlbumByName(string name, Catalogue catalogue)
+        {
+            List<Album> albums = new List<Album>();
+            
+            foreach (var artist in catalogue.data)
+            {
+                foreach (var album in artist.albumList)
+                    if (album.name.ToLower().Equals(name.ToLower()))
+                        albums.Add(album);
+            }
+
+            if (albums.Count != 0)
+                return albums;
+            else throw new InstanceNotFoundException();
+        }
     }
 }
