@@ -6,14 +6,16 @@ namespace Lab2
     public class TrackCompilation
     {
         private List<Track> tracks;
-        public readonly string name;
-        public readonly List<Genre> genres;
+        public readonly string Name;
+        public readonly List<Genre> Genres;
         public readonly List<Artist> Artists;
 
         public TrackCompilation(string name)
         {
-            this.name = name;
+            this.Name = name;
             tracks = new List<Track>();
+            Genres = new List<Genre>();
+            Artists = new List<Artist>();
         }
 
         public void AddTrack(Track track)
@@ -23,19 +25,19 @@ namespace Lab2
             AddGenre(track);
         }
 
-        private bool hasGenre(Genre genre)
+        private bool HasGenre(Genre genre)
         {
-            foreach (var gen in genres)
-                if (genre.name.ToLower().Equals(gen.name.ToLower()))
+            foreach (var gen in Genres)
+                if (genre.Name.ToLower().Equals(gen.Name.ToLower()))
                     return true;
 
             return false;
         }
         
-        private bool hasArtist(Artist artist)
+        private bool HasArtist(Artist artist)
         {
             foreach (var art in Artists)
-                if (art.name.ToLower().Equals(artist.name.ToLower()))
+                if (art.ToString().ToLower().Equals(artist.ToString().ToLower()))
                     return true;
 
             return false;
@@ -43,19 +45,19 @@ namespace Lab2
         
         private void AddGenre(Track track)
         {
-            if (!hasGenre(track.album.genre))
-                genres.Add(track.album.genre);
+            if (!HasGenre(track.Album.Genre))
+                Genres.Add(track.Album.Genre);
         }
 
         private void AddArtist(Track track)
         {
-            if (!hasArtist(track.album.artist))
-                Artists.Add(track.album.artist);
+            if (!HasArtist(track.Album.Artist))
+                Artists.Add(track.Album.Artist);
         }
 
         public override string ToString()
         {
-            return name;
+            return Name;
         }
     }
 }

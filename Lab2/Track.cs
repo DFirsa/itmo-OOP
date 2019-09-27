@@ -5,19 +5,19 @@ namespace Lab2
         private string name;
         private int durationMin;
         private int durationSec;
-        public readonly Album album;
+        public readonly Album Album;
 
         public Track(string name, int min, int sec, Album album)
         {
             this.name = name;
             this.durationMin = min;
             this.durationSec = sec;
-            this.album = album;
+            this.Album = album;
         }
 
         public override string ToString()
         {
-            return $"{name} {durationMin}:{durationSec}";
+            return $"{name} - {Album.Artist.ToString()} {durationMin}:{durationSec}";
         }
     }
 }

@@ -8,21 +8,21 @@ namespace Lab2
 {
     public class Catalogue
     {
-        public readonly List<Artist> data;
-        public readonly List<Genre> genres;
-        public readonly List<TrackCompilation> trackCompilations;
+        public readonly List<Artist> Data;
+        public readonly List<Genre> Genres;
+        public readonly List<TrackCompilation> TrackCompilations;
 
         public Catalogue()
         {
-            data = new List<Artist>();
-            genres = new List<Genre>();
-            trackCompilations = new List<TrackCompilation>();
+            Data = new List<Artist>();
+            Genres = new List<Genre>();
+            TrackCompilations = new List<TrackCompilation>();
         }
 
         private TrackCompilation GetTrackCompilation(string name)
         {
-            foreach (var compil in trackCompilations)
-                if (compil.name.ToLower().Equals(name.ToLower()))
+            foreach (var compil in TrackCompilations)
+                if (compil.Name.ToLower().Equals(name.ToLower()))
                     return compil;
 
             return null;
@@ -30,8 +30,8 @@ namespace Lab2
 
         private Artist GetArtist(string name)
         {
-            foreach (var artist in data)
-                if (artist.name.ToLower().Equals(name.ToLower()))
+            foreach (var artist in Data)
+                if (artist.ToString().ToLower().Equals(name.ToLower()))
                     return artist;
 
             return null;
@@ -39,8 +39,8 @@ namespace Lab2
 
         private Genre GetGenre(string name)
         {
-            foreach (var genre in genres)
-                if (genre.name.ToLower().Equals(name.ToLower()))
+            foreach (var genre in Genres)
+                if (genre.Name.ToLower().Equals(name.ToLower()))
                     return genre;
 
             return null;
@@ -62,7 +62,7 @@ namespace Lab2
                 else
                 {
                     TrackCompilation compilation = new TrackCompilation(trackInfo[6].Trim());
-                    trackCompilations.Add(compilation);
+                    TrackCompilations.Add(compilation);
                     compilation.AddTrack(track);
                 }
             }
@@ -112,7 +112,7 @@ namespace Lab2
                     else
                     {
                         artist = new Artist(trackInfo[1].Trim());
-                        data.Add(artist);
+                        Data.Add(artist);
                         AlbumAddition(trackInfo, artist, linenum);
                     }
                 }
@@ -135,11 +135,11 @@ namespace Lab2
                         lines.Length == 3 && lines[0].Trim().ToLower().Equals("s"))
                     {
                         if (lines.Length == 2)
-                            genres.Add(new Genre(lines[1].Trim()));
+                            Genres.Add(new Genre(lines[1].Trim()));
                         else
                         {
                             Genre genre = new Genre(lines[2].Trim());
-                            genres.Add(genre);
+                            Genres.Add(genre);
                             Genre baseG = GetGenre(lines[1].Trim());
                             if (baseG != null)
                                 baseG.AddSubgenre(genre);
@@ -151,11 +151,11 @@ namespace Lab2
             }
         }
 
-        public static Catalogue Load(string SongsPath, string GenresPath)
+        public static Catalogue Load(string songsPath, string genresPath)
         {
             Catalogue catalogue = new Catalogue();
-            catalogue.LoadGenres(GenresPath);
-            catalogue.LoadTracks(SongsPath);
+            catalogue.LoadGenres(genresPath);
+            catalogue.LoadTracks(songsPath);
             return catalogue;
         }
 

@@ -6,22 +6,11 @@ namespace Lab2
 {
     public static class SearchEngine
     {
-        //search artists by name
-        //search artists by genre
-
-        //search albums and trackLists by year
-        //search albums and tracklist by name
-        //search albums and tracklists by genre
-
-        //search songs by year
-        //search songs by genre
-        //search songs by name
-
         public static List<Artist> SearchArtistsByName(string name, Catalogue catalogue)
         {
             List<Artist> artists = new List<Artist>();
 
-            foreach (var artist in catalogue.data)
+            foreach (var artist in catalogue.Data)
                 if (artist.ToString().ToLower().Equals(name.ToLower()))
                     artists.Add(artist);
 
@@ -33,16 +22,16 @@ namespace Lab2
             List<Artist> artists = new List<Artist>();
 
             Genre foundGenre = null;
-            foreach (var gen in catalogue.genres)
+            foreach (var gen in catalogue.Genres)
                 if (gen.ToString().ToLower().Equals(genre.ToLower()))
                     foundGenre = gen;
 
             if (foundGenre == null) throw new KeyNotFoundException();
 
-            foreach (var artist in catalogue.data)
+            foreach (var artist in catalogue.Data)
             {
-                foreach (var album in artist.albumList)
-                    if (album.genre.IsSubgenreOf(foundGenre))
+                foreach (var album in artist.AlbumList)
+                    if (album.Genre.IsSubgenreOf(foundGenre))
                     {
                         artists.Add(artist);
                         break;
@@ -57,16 +46,16 @@ namespace Lab2
             List<Album> albums = new List<Album>();
 
             Genre foundGenre = null;
-            foreach (var gen in catalogue.genres)
+            foreach (var gen in catalogue.Genres)
                 if (gen.ToString().ToLower().Equals(genre.ToLower()))
                     foundGenre = gen;
 
             if (foundGenre == null) throw new KeyNotFoundException();
 
-            foreach (var artist in catalogue.data)
+            foreach (var artist in catalogue.Data)
             {
-                foreach (var album in artist.albumList)
-                    if (album.genre.IsSubgenreOf(foundGenre))
+                foreach (var album in artist.AlbumList)
+                    if (album.Genre.IsSubgenreOf(foundGenre))
                         albums.Add(album);
             }
 
@@ -77,10 +66,10 @@ namespace Lab2
         {
             List<Album> albums = new List<Album>();
 
-            foreach (var artist in catalogue.data)
+            foreach (var artist in catalogue.Data)
             {
-                foreach (var album in artist.albumList)
-                    if (album.year == year)
+                foreach (var album in artist.AlbumList)
+                    if (album.Year == year)
                         albums.Add(album);
             }
             
@@ -91,10 +80,10 @@ namespace Lab2
         {
             List<Album> albums = new List<Album>();
             
-            foreach (var artist in catalogue.data)
+            foreach (var artist in catalogue.Data)
             {
-                foreach (var album in artist.albumList)
-                    if (album.name.ToLower().Equals(name.ToLower()))
+                foreach (var album in artist.AlbumList)
+                    if (album.Name.ToLower().Equals(name.ToLower()))
                         albums.Add(album);
             }
 
@@ -105,11 +94,11 @@ namespace Lab2
         {
             List<Track> tracks = new List<Track>();
             
-            foreach (var artist in catalogue.data)
+            foreach (var artist in catalogue.Data)
             {
-                foreach (var album in artist.albumList)
+                foreach (var album in artist.AlbumList)
                 {
-                    foreach (var track in album.trackList)
+                    foreach (var track in album.TrackList)
                         if (track.ToString().ToLower().Equals(name.ToLower()))
                             tracks.Add(track);
                 }
@@ -125,7 +114,7 @@ namespace Lab2
             List<Album> albums = SearchEngine.SearchAlbumByYear(year, catalogue);
             foreach (var album in albums)
             {
-                foreach (var track in album.trackList)
+                foreach (var track in album.TrackList)
                     tracks.Add(track);
             }
 
@@ -142,7 +131,7 @@ namespace Lab2
                 List<Album> albums = SearchAlbumByGenre(genre, catalogue);
                 foreach (var album in albums)
                 {
-                    foreach (var track in album.trackList)
+                    foreach (var track in album.TrackList)
                         tracks.Add(track);
                 }
             }
@@ -161,10 +150,10 @@ namespace Lab2
         {
             List<TrackCompilation> tc = new List<TrackCompilation>();
 
-            foreach (var compil in catalogue.trackCompilations)
+            foreach (var compil in catalogue.TrackCompilations)
             {
-                foreach (var gen in compil.genres)
-                    if (gen.name.ToLower().Equals(genre.ToLower()))
+                foreach (var gen in compil.Genres)
+                    if (gen.Name.ToLower().Equals(genre.ToLower()))
                         tc.Add(compil);
             }
 
@@ -175,10 +164,10 @@ namespace Lab2
         {
             List<TrackCompilation> tc = new List<TrackCompilation>();
             
-            foreach (var compil in catalogue.trackCompilations)
+            foreach (var compil in catalogue.TrackCompilations)
             {
                 foreach (var art in compil.Artists)
-                    if (art.name.ToLower().Equals(artist.ToLower()))
+                    if (art.ToString().ToLower().Equals(artist.ToLower()))
                         tc.Add(compil);
             }
 

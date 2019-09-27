@@ -3,8 +3,6 @@ using System.Collections.Generic;
 
 namespace Lab2
 {
-    
-    //TODO write main and compilation
     internal class Program
     {
         public static void Main(string[] args)
@@ -16,22 +14,19 @@ namespace Lab2
             try
             {
                 gNotFound = "Rock";
-                    
-                List<Track> rockTrack = SearchEngine.SearchTrackByGenre(gNotFound, catalogue);
+                
                 Console.WriteLine($" === {gNotFound} tracks === ");
-                foreach (var track in rockTrack)
+                foreach (var track in SearchEngine.SearchTrackByGenre(gNotFound, catalogue))
                     Console.WriteLine(track.ToString());
                 
-                List<Artist> artists = SearchEngine.SearchArtistsByGenre(gNotFound, catalogue);
                 Console.WriteLine($" === {gNotFound} artists === ");
-                foreach (var artist in artists)
+                foreach (var artist in SearchEngine.SearchArtistsByGenre(gNotFound, catalogue))
                     Console.WriteLine(artist.ToString());
 
                 gNotFound = "Indie";
                 
-                List<Track> indieTrack = SearchEngine.SearchTrackByGenre(gNotFound, catalogue);
                 Console.WriteLine($" === {gNotFound} tracks === ");
-                foreach (var track in indieTrack)
+                foreach (var track in SearchEngine.SearchTrackByGenre(gNotFound, catalogue))
                     Console.WriteLine(track.ToString());
             }
             catch (KeyNotFoundException)
@@ -40,8 +35,7 @@ namespace Lab2
             }
 
             Console.WriteLine(" === Oasis === ");
-            List<Artist> oasis = SearchEngine.SearchArtistsByName("Oasis", catalogue);
-            foreach (var artist in oasis)
+            foreach (var artist in SearchEngine.SearchArtistsByName("Oasis", catalogue))
             {
                 Console.WriteLine(artist.ToString());
             }

@@ -4,12 +4,12 @@ namespace Lab2
 {
     public class Genre
     {
-        public readonly string name;
+        public readonly string Name;
         private List<Genre> subgenres;
 
         public Genre(string name)
         {
-            this.name = name;
+            this.Name = name;
             subgenres = new List<Genre>();
         }
 
@@ -41,7 +41,7 @@ namespace Lab2
 
         public override string ToString()
         {
-            return name;
+            return Name;
         }
     }
 }
