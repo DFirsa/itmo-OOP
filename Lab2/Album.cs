@@ -4,23 +4,30 @@ namespace Lab2
 {
     public class Album
     {
-        private readonly List<Track> trackList;
-//        private Genre genre;
-        private short year;
-        
-        public readonly string name;
+        public readonly List<Track> TrackList;
+        public readonly Genre Genre;
+        public readonly short Year;
+        public readonly string Name;
+        public readonly Artist Artist;
 
-        public Album(string albumName, short year)
+        public Album(string albumName, short year, Genre genre, Artist artist)
         {
-            name = albumName;
-            this.year = year;
+            Name = albumName;
+            this.Year = year;
+            this.Genre = genre;
+            this.Artist = artist;
             
-            trackList = new List<Track>();
+            TrackList = new List<Track>();
         }
 
-        public void AddTrack(string trackName, int durationMin, int durationSec)
+        public void AddTrack(Track track)
         {
-            trackList.Add(new Track(trackName, durationMin, durationSec));
+            TrackList.Add(track);
+        }
+
+        public override string ToString()
+        {
+            return $"{Name} : {Artist.ToString()}";
         }
     }
 }
