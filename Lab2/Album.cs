@@ -9,19 +9,21 @@ namespace Lab2
         public readonly short year;
         
         public readonly string name;
+        public readonly Artist artist;
 
-        public Album(string albumName, short year, Genre genre)
+        public Album(string albumName, short year, Genre genre, Artist artist)
         {
             name = albumName;
             this.year = year;
             this.genre = genre;
+            this.artist = artist;
             
             trackList = new List<Track>();
         }
 
-        public void AddTrack(string trackName, int durationMin, int durationSec)
+        public void AddTrack(Track track)
         {
-            trackList.Add(new Track(trackName, durationMin, durationSec, this));
+            trackList.Add(track);
         }
     }
 }

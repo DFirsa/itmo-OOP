@@ -17,22 +17,38 @@ namespace Lab2
             {
                 gNotFound = "Rock";
                     
-                List<Track> rockTrack = SearchEngine.SearchTrackByGenre("Rock", catalogue);
-                Console.WriteLine(" === Rock tracks === ");
+                List<Track> rockTrack = SearchEngine.SearchTrackByGenre(gNotFound, catalogue);
+                Console.WriteLine($" === {gNotFound} tracks === ");
                 foreach (var track in rockTrack)
                     Console.WriteLine(track.ToString());
-
-                gNotFound = "Indi";
                 
-                List<Track> indieTrack = SearchEngine.SearchTrackByGenre("Indie", catalogue);
-                Console.WriteLine(" === Indie tracks === ");
+                List<Artist> artists = SearchEngine.SearchArtistsByGenre(gNotFound, catalogue);
+                Console.WriteLine($" === {gNotFound} artists === ");
+                foreach (var artist in artists)
+                    Console.WriteLine(artist.ToString());
+
+                gNotFound = "Indie";
+                
+                List<Track> indieTrack = SearchEngine.SearchTrackByGenre(gNotFound, catalogue);
+                Console.WriteLine($" === {gNotFound} tracks === ");
                 foreach (var track in indieTrack)
                     Console.WriteLine(track.ToString());
             }
             catch (KeyNotFoundException)
             {
-                Console.WriteLine($"Genre {gNotFound} not found");
+                Console.WriteLine($"\nGenre {gNotFound} not found\n");
             }
+
+            Console.WriteLine(" === Oasis === ");
+            List<Artist> oasis = SearchEngine.SearchArtistsByName("Oasis", catalogue);
+            foreach (var artist in oasis)
+            {
+                Console.WriteLine(artist.ToString());
+            }
+            
+            Console.WriteLine(" === Track compilation contanied pop === ");
+            foreach (var tc in SearchEngine.SearchTrackCompilationByGenre("Pop", catalogue))
+                Console.WriteLine(tc.ToString());
         }
     }
 }

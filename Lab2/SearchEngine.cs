@@ -43,7 +43,10 @@ namespace Lab2
             {
                 foreach (var album in artist.albumList)
                     if (album.genre.IsSubgenreOf(foundGenre))
+                    {
                         artists.Add(artist);
+                        break;
+                    }
             }
 
             return artists;
@@ -152,6 +155,34 @@ namespace Lab2
                 throw new KeyNotFoundException();
             else 
                 return tracks;
+        }
+
+        public static List<TrackCompilation> SearchTrackCompilationByGenre(string genre, Catalogue catalogue)
+        {
+            List<TrackCompilation> tc = new List<TrackCompilation>();
+
+            foreach (var compil in catalogue.trackCompilations)
+            {
+                foreach (var gen in compil.genres)
+                    if (gen.name.ToLower().Equals(genre.ToLower()))
+                        tc.Add(compil);
+            }
+
+            return tc;
+        }
+
+        public static List<TrackCompilation> SearchTrackCompilationByArtist(string artist, Catalogue catalogue)
+        {
+            List<TrackCompilation> tc = new List<TrackCompilation>();
+            
+            foreach (var compil in catalogue.trackCompilations)
+            {
+                foreach (var art in compil.Artists)
+                    if (art.name.ToLower().Equals(artist.ToLower()))
+                        tc.Add(compil);
+            }
+
+            return tc;
         }
     }
 }

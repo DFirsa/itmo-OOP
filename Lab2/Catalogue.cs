@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace Lab2
 {
@@ -9,11 +10,22 @@ namespace Lab2
     {
         public readonly List<Artist> data;
         public readonly List<Genre> genres;
+        public readonly List<TrackCompilation> trackCompilations;
 
         public Catalogue()
         {
             data = new List<Artist>();
             genres = new List<Genre>();
+            trackCompilations = new List<TrackCompilation>();
+        }
+
+        private TrackCompilation GetTrackCompilation(string name)
+        {
+            foreach (var compil in trackCompilations)
+                if (compil.name.ToLower().Equals(name.ToLower()))
+                    return compil;
+
+            return null;
         }
 
         private Artist GetArtist(string name)
@@ -40,7 +52,20 @@ namespace Lab2
             int min, sec;
             Int32.TryParse(time[0].Trim(), out min);
             Int32.TryParse(time[1].Trim(), out sec);
-            album.AddTrack(trackInfo[0].Trim(), min, sec);
+            Track track = new Track(trackInfo[0].Trim(), min, sec, album);
+            album.AddTrack(track);
+            if (trackInfo.Length == 7)
+            {
+                TrackCompilation compil = GetTrackCompilation(trackInfo[6].Trim());
+                if(compil != null)
+                    compil.AddTrack(track);
+                else
+                {
+                    TrackCompilation compilation = new TrackCompilation(trackInfo[6].Trim());
+                    trackCompilations.Add(compilation);
+                    compilation.AddTrack(track);
+                }
+            }
         }
 
         private void AlbumAddition(string[] trackInfo, Artist artist, int linenum)
@@ -51,7 +76,7 @@ namespace Lab2
             Genre genre = GetGenre(trackInfo[5].Trim());
             if (genre != null)
             {
-                Album album = new Album(trackInfo[2].Trim(), year, genre);
+                Album album = new Album(trackInfo[2].Trim(), year, genre, artist);
                 artist.AddAlbum(album);
                 TrackAddition(trackInfo, album);
             }
@@ -68,10 +93,9 @@ namespace Lab2
                 while ((line = reader.ReadLine()) != null)
                 {
                     linenum++;
-
-                    // 6 for genres without compilations
+                    
                     string[] trackInfo = line.Split('/');
-                    if (trackInfo.Length != 6)
+                    if (!(trackInfo.Length == 6 || trackInfo.Length == 7))
                     {
                         Console.WriteLine($"Invalid input tracks data: line {linenum}");
                         continue;

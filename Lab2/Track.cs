@@ -5,7 +5,7 @@ namespace Lab2
         private string name;
         private int durationMin;
         private int durationSec;
-        private Album album;
+        public readonly Album album;
 
         public Track(string name, int min, int sec, Album album)
         {
