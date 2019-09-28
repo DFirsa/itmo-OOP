@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Lab2
 {
@@ -21,7 +22,8 @@ namespace Lab2
         //subgenre == genre, but genre != subgenre
         public bool IsSubgenreOf(Genre genre)
         {
-            if (this.Equals(genre)) return true;
+            //TODO try to fix this
+//            return this.Equals(genre) || genre.subgenres.Any(x => x.IsSubgenreOf(genre));
                 
             Genre finder;
             Queue<Genre> queue = new Queue<Genre>();

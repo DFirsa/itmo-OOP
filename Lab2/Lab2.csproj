@@ -49,9 +49,13 @@
     <Compile Include="TrackCompilation.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Genres.txt" />
+    <Content Include="Genres.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="LoadFilesRules.txt" />
-    <Content Include="Songs.txt" />
+    <Content Include="Songs.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

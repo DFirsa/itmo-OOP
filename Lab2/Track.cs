@@ -17,7 +17,7 @@ namespace Lab2
 
         public override string ToString()
         {
-            return $"{name} - {Album.Artist.ToString()} {durationMin}:{durationSec}";
+            return $"{name} - {Album.Artist.ToString()} {durationMin}:{durationSec:00}";
         }
     }
 }

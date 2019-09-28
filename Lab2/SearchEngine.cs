@@ -6,15 +6,15 @@ namespace Lab2
 {
     public static class SearchEngine
     {
-        public static List<Artist> SearchArtistsByName(string name, Catalogue catalogue)
+        //TODO нерегистрозваисимый поиск
+        //TODO multisearch
+        public static Artist SearchArtistByName(string name, Catalogue catalogue)
         {
-            List<Artist> artists = new List<Artist>();
-
             foreach (var artist in catalogue.Data)
-                if (artist.ToString().ToLower().Equals(name.ToLower()))
-                    artists.Add(artist);
-
-            return artists;
+                if (artist.ToString().ToLower().Contains(name.ToLower()))
+                    return artist;
+            
+            return null;
         }
 
         public static List<Artist> SearchArtistsByGenre(string genre, Catalogue catalogue)
@@ -124,7 +124,6 @@ namespace Lab2
         public static List<Track> SearchTrackByGenre(string genre, Catalogue catalogue)
         {
             List<Track> tracks = new List<Track>();
-            bool cathedEx = false;
 
             try
             {
@@ -137,13 +136,10 @@ namespace Lab2
             }
             catch (Exception)
             {
-                cathedEx = true;
+                throw new KeyNotFoundException();
             }
 
-            if (cathedEx)
-                throw new KeyNotFoundException();
-            else 
-                return tracks;
+            return tracks;
         }
 
         public static List<TrackCompilation> SearchTrackCompilationByGenre(string genre, Catalogue catalogue)

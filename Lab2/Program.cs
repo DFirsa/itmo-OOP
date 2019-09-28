@@ -7,7 +7,7 @@ namespace Lab2
     {
         public static void Main(string[] args)
         {
-            Catalogue catalogue = Catalogue.Load("..\\..\\Songs.txt", "..\\..\\Genres.txt");
+            Catalogue catalogue = Catalogue.Load("Songs.txt", "Genres.txt");
 
             string gNotFound = "";
             
@@ -35,12 +35,14 @@ namespace Lab2
             }
 
             Console.WriteLine(" === Oasis === ");
-            foreach (var artist in SearchEngine.SearchArtistsByName("Oasis", catalogue))
-            {
-                Console.WriteLine(artist.ToString());
-            }
-            
-            Console.WriteLine(" === Track compilation contanied pop === ");
+            Artist oasis = SearchEngine.SearchArtistByName("Oasis", catalogue);
+            if (oasis == null)
+                Console.WriteLine("Artist oasis hasn't found");
+            else
+                Console.WriteLine(oasis.ToString());
+
+
+                Console.WriteLine(" === Track compilation contanied pop === ");
             foreach (var tc in SearchEngine.SearchTrackCompilationByGenre("Pop", catalogue))
                 Console.WriteLine(tc.ToString());
         }
