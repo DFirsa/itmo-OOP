@@ -2,7 +2,7 @@ namespace Lab2
 {
     public class Track
     {
-        private string name;
+        public readonly string name;
         private int durationMin;
         private int durationSec;
         public readonly Album Album;

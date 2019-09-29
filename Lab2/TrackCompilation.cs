@@ -28,7 +28,7 @@ namespace Lab2
         private bool HasGenre(Genre genre)
         {
             foreach (var gen in Genres)
-                if (genre.Name.ToLower().Equals(gen.Name.ToLower()))
+                if (Comparator.IgnoreCaseCompare(gen.ToString(), genre.ToString()))
                     return true;
 
             return false;

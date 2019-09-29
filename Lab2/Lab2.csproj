@@ -41,6 +41,7 @@
     <Compile Include="Album.cs" />
     <Compile Include="Artist.cs" />
     <Compile Include="Catalogue.cs" />
+    <Compile Include="Comparator.cs" />
     <Compile Include="Genre.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Lab2
 {
     public class Genre
     {
-        public readonly string Name;
+        private string Name;
         private List<Genre> subgenres;
 
         public Genre(string name)
@@ -23,10 +24,11 @@ namespace Lab2
         public bool IsSubgenreOf(Genre genre)
         {
             //TODO try to fix this
-//            return this.Equals(genre) || genre.subgenres.Any(x => x.IsSubgenreOf(genre));
-                
+//            return this.Equals(genre) || genre.subgenres.Any(x => x.Equals(genre));
+
             Genre finder;
             Queue<Genre> queue = new Queue<Genre>();
+            queue.Enqueue(genre);
             foreach (var subgenre in genre.subgenres)
                 queue.Enqueue(subgenre);
 

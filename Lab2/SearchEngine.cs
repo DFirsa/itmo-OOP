@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Management.Instrumentation;
 
@@ -6,164 +6,259 @@ namespace Lab2
 {
     public static class SearchEngine
     {
-        //TODO нерегистрозваисимый поиск
-        //TODO multisearch
-        public static Artist SearchArtistByName(string name, Catalogue catalogue)
+        public static List<Artist> SearchArtistsByName(string name, List<Artist> artists)
         {
-            foreach (var artist in catalogue.Data)
-                if (artist.ToString().ToLower().Contains(name.ToLower()))
-                    return artist;
-            
-            return null;
+            List<Artist> result = new List<Artist>();
+
+            foreach (var artist in artists)
+                if (Comparator.IgnoreCaseCompare(artist.ToString(), name))
+                    result.Add(artist);
+
+            return result;
         }
 
-        public static List<Artist> SearchArtistsByGenre(string genre, Catalogue catalogue)
+        public static List<Artist> SearchArtistsByGenre(string genre, List<Genre> genres, List<Artist> artists)
         {
-            List<Artist> artists = new List<Artist>();
+            List<Artist> result = new List<Artist>();
 
             Genre foundGenre = null;
-            foreach (var gen in catalogue.Genres)
-                if (gen.ToString().ToLower().Equals(genre.ToLower()))
+            foreach (var gen in genres)
+                if (Comparator.IgnoreCaseCompare(gen.ToString(), genre))
                     foundGenre = gen;
 
             if (foundGenre == null) throw new KeyNotFoundException();
 
-            foreach (var artist in catalogue.Data)
+            foreach (var artist in artists)
             {
                 foreach (var album in artist.AlbumList)
                     if (album.Genre.IsSubgenreOf(foundGenre))
                     {
-                        artists.Add(artist);
+                        result.Add(artist);
                         break;
                     }
             }
 
-            return artists;
+            return result;
         }
 
-        public static List<Album> SearchAlbumByGenre(string genre, Catalogue catalogue)
+        public static List<Album> SearchAlbumsByGenre(string genre, List<Genre> genres, List<Artist> artists)
         {
-            List<Album> albums = new List<Album>();
+            List<Album> result = new List<Album>();
 
             Genre foundGenre = null;
-            foreach (var gen in catalogue.Genres)
-                if (gen.ToString().ToLower().Equals(genre.ToLower()))
+            foreach (var gen in genres)
+                if (gen.ToString().ToLower().Equals(genre.ToString().ToLower()))
                     foundGenre = gen;
 
             if (foundGenre == null) throw new KeyNotFoundException();
 
-            foreach (var artist in catalogue.Data)
+            foreach (var artist in artists)
             {
                 foreach (var album in artist.AlbumList)
                     if (album.Genre.IsSubgenreOf(foundGenre))
-                        albums.Add(album);
+                        result.Add(album);
             }
 
-            return albums;
+            return result;
         }
 
-        public static List<Album> SearchAlbumByYear(int year, Catalogue catalogue)
+        public static List<Album> SearchAlbumsByGenre(string genre, List<Genre> genres, List<Album> albums)
         {
-            List<Album> albums = new List<Album>();
+            List<Album> result = new List<Album>();
 
-            foreach (var artist in catalogue.Data)
+            Genre foundGenre = null;
+            foreach (var gen in genres)
+                if (gen.ToString().ToLower().Equals(genre.ToString().ToLower()))
+                    foundGenre = gen;
+
+            if (foundGenre == null) throw new KeyNotFoundException();
+
+            foreach (var album in albums)
+                if (album.Genre.IsSubgenreOf(foundGenre))
+                    result.Add(album);
+
+            return result;
+        }
+        
+        public static List<Album> SearchAlbumsByYear(int year, List<Artist> artists)
+        {
+            List<Album> result = new List<Album>();
+
+            foreach (var artist in artists)
             {
                 foreach (var album in artist.AlbumList)
                     if (album.Year == year)
-                        albums.Add(album);
+                        result.Add(album);
             }
             
-            return albums;
+            return result;
+        }
+        
+        public static List<Album> SearchAlbumsByYear(int year, List<Album> albums)
+        {
+            List<Album> result = new List<Album>();
+
+            foreach (var album in albums)
+                if (album.Year == year)
+                    result.Add(album);
+            
+            return result;
         }
 
-        public static List<Album> SearchAlbumByName(string name, Catalogue catalogue)
+        public static List<Album> SearchAlbumsByName(string name, List<Artist> artists)
         {
-            List<Album> albums = new List<Album>();
+            List<Album> result = new List<Album>();
             
-            foreach (var artist in catalogue.Data)
+            foreach (var artist in artists)
             {
                 foreach (var album in artist.AlbumList)
-                    if (album.Name.ToLower().Equals(name.ToLower()))
-                        albums.Add(album);
+                    if (Comparator.IgnoreCaseCompare(album.Name, name))
+                        result.Add(album);
             }
 
-            return albums;
+            return result;
+        }
+        
+        public static List<Album> SearchAlbumsByName(string name, List<Album> albums)
+        {
+            List<Album> result = new List<Album>();
+            
+            foreach (var album in albums)
+                if (Comparator.IgnoreCaseCompare(album.Name, name))
+                    result.Add(album);
+
+            return result;
         }
 
-        public static List<Track> SearchTrackByName(string name, Catalogue catalogue)
+        public static List<Track> SearchTracksByName(string name, List<Artist> artists)
         {
-            List<Track> tracks = new List<Track>();
+            List<Track> result = new List<Track>();
             
-            foreach (var artist in catalogue.Data)
+            foreach (var artist in artists)
             {
                 foreach (var album in artist.AlbumList)
                 {
                     foreach (var track in album.TrackList)
-                        if (track.ToString().ToLower().Equals(name.ToLower()))
-                            tracks.Add(track);
+                        if (Comparator.IgnoreCaseCompare(track.name, name))
+                            result.Add(track);
                 }
             }
 
-            return tracks;
+            return result;
+        }
+        
+        public static List<Track> SearchTracksByName(string name, List<Track> tracks)
+        {
+            List<Track> result = new List<Track>();
+            
+            foreach (var track in tracks)
+                if (Comparator.IgnoreCaseCompare(track.name, name))
+                    result.Add(track);
+
+            return result;
         }
 
-        public static List<Track> SearchTrackByYear(int year, Catalogue catalogue)
+        public static List<Track> SearchTracksByYear(int year, List<Artist> artists)
         {
-            List<Track> tracks = new List<Track>();
+            List<Track> result = new List<Track>();
 
-            List<Album> albums = SearchEngine.SearchAlbumByYear(year, catalogue);
+            List<Album> albums = SearchEngine.SearchAlbumsByYear(year, artists);
             foreach (var album in albums)
             {
                 foreach (var track in album.TrackList)
-                    tracks.Add(track);
+                    result.Add(track);
             }
 
-            return tracks;
+            return result;
+        }
+        
+        public static List<Track> SearchTracksByYear(int year, List<Track> tracks)
+        {
+            List<Track> result = new List<Track>();
+
+            foreach (var track in tracks)
+                if (track.Album.Year == year)
+                    result.Add(track);
+
+                    return result;
         }
 
-        public static List<Track> SearchTrackByGenre(string genre, Catalogue catalogue)
+        public static List<Track> SearchTracksByGenre(string genre, List<Genre> genres, List<Artist> artists)
         {
-            List<Track> tracks = new List<Track>();
+            List<Track> result = new List<Track>();
+            bool cathedEx = false;
 
             try
             {
-                List<Album> albums = SearchAlbumByGenre(genre, catalogue);
+                List<Album> albums = SearchAlbumsByGenre(genre, genres, artists);
                 foreach (var album in albums)
                 {
                     foreach (var track in album.TrackList)
-                        tracks.Add(track);
+                        result.Add(track);
                 }
             }
             catch (Exception)
             {
-                throw new KeyNotFoundException();
+                cathedEx = true;
             }
 
-            return tracks;
+            if (cathedEx)
+                throw new KeyNotFoundException();
+            else 
+                return result;
+        }
+        
+        public static List<Track> SearchTracksByGenre(string genre, List<Genre> genres, List<Track> tracks)
+        {
+            List<Track> result = new List<Track>();
+            bool cathedEx = false;
+
+            try
+            {
+                Genre foundGenre = null;
+                foreach (var gen in genres)
+                    if (Comparator.IgnoreCaseCompare(gen.ToString(), genre))
+                        foundGenre = gen;
+
+                if (foundGenre == null) throw new KeyNotFoundException();
+                    
+                foreach (var track in tracks)
+                    if (track.Album.Genre.IsSubgenreOf(foundGenre))
+                        result.Add(track);
+            }
+            catch (Exception)
+            {
+                cathedEx = true;
+            }
+
+            if (cathedEx)
+                throw new KeyNotFoundException();
+            else 
+                return result;
         }
 
-        public static List<TrackCompilation> SearchTrackCompilationByGenre(string genre, Catalogue catalogue)
+        public static List<TrackCompilation> SearchTrackCompilationsByGenre(string genre, List<TrackCompilation> trackCompilations)
         {
             List<TrackCompilation> tc = new List<TrackCompilation>();
 
-            foreach (var compil in catalogue.TrackCompilations)
+            foreach (var compil in trackCompilations)
             {
                 foreach (var gen in compil.Genres)
-                    if (gen.Name.ToLower().Equals(genre.ToLower()))
+                    if (Comparator.IgnoreCaseCompare(gen.ToString(), genre))
                         tc.Add(compil);
             }
 
             return tc;
         }
 
-        public static List<TrackCompilation> SearchTrackCompilationByArtist(string artist, Catalogue catalogue)
+        public static List<TrackCompilation> SearchTrackCompilationsByArtist(string artist, List<TrackCompilation> trackCompilations)
         {
             List<TrackCompilation> tc = new List<TrackCompilation>();
             
-            foreach (var compil in catalogue.TrackCompilations)
+            foreach (var compil in trackCompilations)
             {
                 foreach (var art in compil.Artists)
-                    if (art.ToString().ToLower().Equals(artist.ToLower()))
+                    if (Comparator.IgnoreCaseCompare(art.ToString(), artist))
                         tc.Add(compil);
             }
 

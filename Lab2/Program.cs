@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 
 namespace Lab2
@@ -7,26 +7,27 @@ namespace Lab2
     {
         public static void Main(string[] args)
         {
-            Catalogue catalogue = Catalogue.Load("Songs.txt", "Genres.txt");
+            Catalogue catalogue = Catalogue.Load("..\\..\\Songs.txt", "..\\..\\Genres.txt");
 
             string gNotFound = "";
             
             try
             {
-                gNotFound = "Rock";
-                
-                Console.WriteLine($" === {gNotFound} tracks === ");
-                foreach (var track in SearchEngine.SearchTrackByGenre(gNotFound, catalogue))
-                    Console.WriteLine(track.ToString());
-                
-                Console.WriteLine($" === {gNotFound} artists === ");
-                foreach (var artist in SearchEngine.SearchArtistsByGenre(gNotFound, catalogue))
-                    Console.WriteLine(artist.ToString());
-
                 gNotFound = "Indie";
                 
                 Console.WriteLine($" === {gNotFound} tracks === ");
-                foreach (var track in SearchEngine.SearchTrackByGenre(gNotFound, catalogue))
+                foreach (var track in catalogue.SearchTracksByGenre(gNotFound))
+                    Console.WriteLine(track.ToString());
+                
+                gNotFound = "Rock";
+                
+                Console.WriteLine($" === {gNotFound} artists === ");
+                foreach (var artist in catalogue.SearchArtistsByGenre(gNotFound))
+                    Console.WriteLine(artist.ToString());
+
+                int year = 1995;
+                Console.WriteLine($" === {gNotFound} tracks of {year} === ");
+                foreach (var track in catalogue.SearchTracks(year, gNotFound))
                     Console.WriteLine(track.ToString());
             }
             catch (KeyNotFoundException)
@@ -35,15 +36,14 @@ namespace Lab2
             }
 
             Console.WriteLine(" === Oasis === ");
-            Artist oasis = SearchEngine.SearchArtistByName("Oasis", catalogue);
-            if (oasis == null)
-                Console.WriteLine("Artist oasis hasn't found");
-            else
-                Console.WriteLine(oasis.ToString());
-
-
-                Console.WriteLine(" === Track compilation contanied pop === ");
-            foreach (var tc in SearchEngine.SearchTrackCompilationByGenre("Pop", catalogue))
+            List<Artist> oasis = catalogue.SearchArtists("Oasis");
+            foreach (var artist in oasis)
+            {
+                Console.WriteLine(artist.ToString());
+            }
+            
+            Console.WriteLine(" === Track compilation contanied pop === ");
+            foreach (var tc in catalogue.SearchTrackCompilationsByGenre("Pop"))
                 Console.WriteLine(tc.ToString());
         }
     }
