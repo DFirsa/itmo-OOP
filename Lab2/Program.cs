@@ -7,7 +7,7 @@ namespace Lab2
     {
         public static void Main(string[] args)
         {
-            Catalogue catalogue = Catalogue.Load("..\\..\\Songs.txt", "..\\..\\Genres.txt");
+            Catalogue catalogue = Catalogue.Load("Songs.txt", "Genres.txt");
 
             string gNotFound = "";
             
