@@ -7,22 +7,22 @@ using System.Text;
 
 namespace Lab2
 {
-    public class Catalogue
+    public class Catalogue: SearchEngine
     {
-        public readonly List<Artist> Data;
-        public readonly List<Genre> Genres;
-        public readonly List<TrackCompilation> TrackCompilations;
+        private List<Artist> data;
+        private List<Genre> genres;
+        private List<TrackCompilation> trackCompilations;
 
         public Catalogue()
         {
-            Data = new List<Artist>();
-            Genres = new List<Genre>();
-            TrackCompilations = new List<TrackCompilation>();
+            data = new List<Artist>();
+            genres = new List<Genre>();
+            trackCompilations = new List<TrackCompilation>();
         }
 
         private TrackCompilation GetTrackCompilation(string name)
         {
-            foreach (var compil in TrackCompilations)
+            foreach (var compil in trackCompilations)
                 if (Comparator.IgnoreCaseCompare(compil.Name, name))
                     return compil;
 
@@ -31,7 +31,7 @@ namespace Lab2
 
         private Artist GetArtist(string name)
         {
-            foreach (var artist in Data)
+            foreach (var artist in data)
                 if (Comparator.IgnoreCaseCompare(artist.ToString(), name))
                     return artist;
 
@@ -40,7 +40,7 @@ namespace Lab2
 
         private Genre GetGenre(string name)
         {
-            foreach (var genre in Genres)
+            foreach (var genre in genres)
                 if (Comparator.IgnoreCaseCompare(genre.ToString(), name))
                     return genre;
 
@@ -63,7 +63,7 @@ namespace Lab2
                 else
                 {
                     TrackCompilation compilation = new TrackCompilation(trackInfo[6].Trim());
-                    TrackCompilations.Add(compilation);
+                    trackCompilations.Add(compilation);
                     compilation.AddTrack(track);
                 }
             }
@@ -113,7 +113,7 @@ namespace Lab2
                     else
                     {
                         artist = new Artist(trackInfo[1].Trim());
-                        Data.Add(artist);
+                        data.Add(artist);
                         AlbumAddition(trackInfo, artist, linenum);
                     }
                 }
@@ -136,11 +136,11 @@ namespace Lab2
                         lines.Length == 3 && lines[0].Trim().ToLower().Equals("s"))
                     {
                         if (lines.Length == 2)
-                            Genres.Add(new Genre(lines[1].Trim()));
+                            genres.Add(new Genre(lines[1].Trim()));
                         else
                         {
                             Genre genre = new Genre(lines[2].Trim());
-                            Genres.Add(genre);
+                            genres.Add(genre);
                             Genre baseG = GetGenre(lines[1].Trim());
                             if (baseG != null)
                                 baseG.AddSubgenre(genre);
@@ -162,14 +162,14 @@ namespace Lab2
 
         public List<Artist> SearchArtists(string name)
         {
-            return SearchEngine.SearchArtistsByName(name, Data);
+            return SearchEngine.SearchArtistsByName(name, data);
         }
 
         public List<Artist> SearchArtists(string name, string genre)
         {
             try
             {
-                return SearchEngine.SearchArtistsByGenre(genre, Genres, SearchArtists(name));
+                return SearchEngine.SearchArtistsByGenre(genre, genres, SearchArtists(name));
             }
             catch (KeyNotFoundException)
             {
@@ -181,7 +181,7 @@ namespace Lab2
         {
             try
             {
-                return SearchEngine.SearchArtistsByGenre(genre, Genres, Data);
+                return SearchEngine.SearchArtistsByGenre(genre, genres, data);
             }
             catch (KeyNotFoundException)
             {
@@ -191,19 +191,19 @@ namespace Lab2
 
         public List<Album> SearchAlbums(string name)
         {
-            return SearchEngine.SearchAlbumsByName(name, Data);
+            return SearchEngine.SearchAlbumsByName(name, data);
         }
 
         public List<Album> SearchAlbums(int year)
         {
-            return SearchEngine.SearchAlbumsByYear(year, Data);
+            return SearchEngine.SearchAlbumsByYear(year, data);
         }
 
         public List<Album> SearchAlbumsByGenre(string genre)
         {
             try
             {
-                return SearchEngine.SearchAlbumsByGenre(genre, Genres, Data);
+                return SearchEngine.SearchAlbumsByGenre(genre, genres, data);
             }
             catch (KeyNotFoundException)
             {
@@ -215,8 +215,8 @@ namespace Lab2
         {
             try
             {
-                return SearchEngine.SearchAlbumsByGenre(genre, Genres,
-                    SearchEngine.SearchAlbumsByName(albumName, Data));
+                return SearchEngine.SearchAlbumsByGenre(genre, genres,
+                    SearchEngine.SearchAlbumsByName(albumName, data));
             }
             catch (KeyNotFoundException)
             {
@@ -228,7 +228,7 @@ namespace Lab2
         {
             try
             {
-                return SearchEngine.SearchAlbumsByGenre(genre, Genres, SearchEngine.SearchAlbumsByYear(year, Data));
+                return SearchEngine.SearchAlbumsByGenre(genre, genres, SearchEngine.SearchAlbumsByYear(year, data));
             }
             catch (KeyNotFoundException)
             {
@@ -238,14 +238,14 @@ namespace Lab2
 
         public List<Album> SearchAlbums(int year, string albumName)
         {
-            return SearchEngine.SearchAlbumsByName(albumName, SearchEngine.SearchAlbumsByYear(year, Data));
+            return SearchEngine.SearchAlbumsByName(albumName, SearchEngine.SearchAlbumsByYear(year, data));
         }
 
         public List<Album> SearchAlbums(string genre, string albumName, int year)
         {
             try
             {
-                return SearchEngine.SearchAlbumsByGenre(genre, Genres, SearchAlbums(year, albumName));
+                return SearchEngine.SearchAlbumsByGenre(genre, genres, SearchAlbums(year, albumName));
             }
             catch (Exception)
             {
@@ -255,19 +255,19 @@ namespace Lab2
 
         public List<Track> SearchTracks(string name)
         {
-            return SearchEngine.SearchTracksByName(name, Data);
+            return SearchEngine.SearchTracksByName(name, data);
         }
 
         public List<Track> SearchTracks(int year)
         {
-            return SearchEngine.SearchTracksByYear(year, Data);
+            return SearchEngine.SearchTracksByYear(year, data);
         }
 
         public List<Track> SearchTracksByGenre(string genre)
         {
             try
             {
-                return SearchEngine.SearchTracksByGenre(genre, Genres, Data);
+                return SearchEngine.SearchTracksByGenre(genre, genres, data);
             }
             catch (KeyNotFoundException)
             {
@@ -277,14 +277,14 @@ namespace Lab2
 
         public List<Track> SearchTracks(string name, int year)
         {
-            return SearchEngine.SearchTracksByName(name, SearchEngine.SearchTracksByYear(year, Data));
+            return SearchEngine.SearchTracksByName(name, SearchEngine.SearchTracksByYear(year, data));
         }
 
         public List<Track> SearchTracks(int year, string genre)
         {
             try
             {
-                return SearchEngine.SearchTracksByGenre(genre, Genres, SearchEngine.SearchTracksByYear(year, Data));
+                return SearchEngine.SearchTracksByGenre(genre, genres, SearchEngine.SearchTracksByYear(year, data));
             }
             catch (KeyNotFoundException)
             {
@@ -296,7 +296,7 @@ namespace Lab2
         {
             try
             {
-                return SearchEngine.SearchTracksByName(name, SearchEngine.SearchTracksByGenre(genre, Genres, Data));
+                return SearchEngine.SearchTracksByName(name, SearchEngine.SearchTracksByGenre(genre, genres, data));
             }
             catch (KeyNotFoundException)
             {
@@ -308,7 +308,7 @@ namespace Lab2
         {
             try
             {
-                return SearchEngine.SearchTracksByGenre(genre, Genres, SearchTracks(name, year));
+                return SearchEngine.SearchTracksByGenre(genre, genres, SearchTracks(name, year));
             }
             catch (KeyNotFoundException)
             {
@@ -318,18 +318,18 @@ namespace Lab2
 
         public List<TrackCompilation> SearchTrackCompilations(string artist)
         {
-            return SearchEngine.SearchTrackCompilationsByArtist(artist, TrackCompilations);
+            return SearchEngine.SearchTrackCompilationsByArtist(artist, trackCompilations);
         }
 
         public List<TrackCompilation> SearchTrackCompilationsByGenre(string genre)
         {
-            return SearchEngine.SearchTrackCompilationsByGenre(genre, TrackCompilations);
+            return SearchEngine.SearchTrackCompilationsByGenre(genre, trackCompilations);
         }
 
         public List<TrackCompilation> SearchTrackCompilations(string artist, string genre)
         {
             return SearchEngine.SearchTrackCompilationsByArtist(artist,
-                SearchEngine.SearchTrackCompilationsByGenre(genre, TrackCompilations));
+                SearchEngine.SearchTrackCompilationsByGenre(genre, trackCompilations));
         }
     }
 }

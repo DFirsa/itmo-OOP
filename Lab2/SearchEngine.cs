@@ -4,9 +4,9 @@ using System.Management.Instrumentation;
 
 namespace Lab2
 {
-    public static class SearchEngine
+    public class SearchEngine
     {
-        public static List<Artist> SearchArtistsByName(string name, List<Artist> artists)
+        protected static List<Artist> SearchArtistsByName(string name, List<Artist> artists)
         {
             List<Artist> result = new List<Artist>();
 
@@ -17,7 +17,7 @@ namespace Lab2
             return result;
         }
 
-        public static List<Artist> SearchArtistsByGenre(string genre, List<Genre> genres, List<Artist> artists)
+        protected static List<Artist> SearchArtistsByGenre(string genre, List<Genre> genres, List<Artist> artists)
         {
             List<Artist> result = new List<Artist>();
 
@@ -41,7 +41,7 @@ namespace Lab2
             return result;
         }
 
-        public static List<Album> SearchAlbumsByGenre(string genre, List<Genre> genres, List<Artist> artists)
+        protected static List<Album> SearchAlbumsByGenre(string genre, List<Genre> genres, List<Artist> artists)
         {
             List<Album> result = new List<Album>();
 
@@ -62,7 +62,7 @@ namespace Lab2
             return result;
         }
 
-        public static List<Album> SearchAlbumsByGenre(string genre, List<Genre> genres, List<Album> albums)
+        protected static List<Album> SearchAlbumsByGenre(string genre, List<Genre> genres, List<Album> albums)
         {
             List<Album> result = new List<Album>();
 
@@ -79,8 +79,8 @@ namespace Lab2
 
             return result;
         }
-        
-        public static List<Album> SearchAlbumsByYear(int year, List<Artist> artists)
+
+        protected static List<Album> SearchAlbumsByYear(int year, List<Artist> artists)
         {
             List<Album> result = new List<Album>();
 
@@ -93,8 +93,8 @@ namespace Lab2
             
             return result;
         }
-        
-        public static List<Album> SearchAlbumsByYear(int year, List<Album> albums)
+
+        protected static List<Album> SearchAlbumsByYear(int year, List<Album> albums)
         {
             List<Album> result = new List<Album>();
 
@@ -105,7 +105,7 @@ namespace Lab2
             return result;
         }
 
-        public static List<Album> SearchAlbumsByName(string name, List<Artist> artists)
+        protected static List<Album> SearchAlbumsByName(string name, List<Artist> artists)
         {
             List<Album> result = new List<Album>();
             
@@ -118,8 +118,8 @@ namespace Lab2
 
             return result;
         }
-        
-        public static List<Album> SearchAlbumsByName(string name, List<Album> albums)
+
+        protected static List<Album> SearchAlbumsByName(string name, List<Album> albums)
         {
             List<Album> result = new List<Album>();
             
@@ -130,7 +130,7 @@ namespace Lab2
             return result;
         }
 
-        public static List<Track> SearchTracksByName(string name, List<Artist> artists)
+        protected static List<Track> SearchTracksByName(string name, List<Artist> artists)
         {
             List<Track> result = new List<Track>();
             
@@ -146,8 +146,8 @@ namespace Lab2
 
             return result;
         }
-        
-        public static List<Track> SearchTracksByName(string name, List<Track> tracks)
+
+        protected static List<Track> SearchTracksByName(string name, List<Track> tracks)
         {
             List<Track> result = new List<Track>();
             
@@ -158,7 +158,7 @@ namespace Lab2
             return result;
         }
 
-        public static List<Track> SearchTracksByYear(int year, List<Artist> artists)
+        protected static List<Track> SearchTracksByYear(int year, List<Artist> artists)
         {
             List<Track> result = new List<Track>();
 
@@ -171,8 +171,8 @@ namespace Lab2
 
             return result;
         }
-        
-        public static List<Track> SearchTracksByYear(int year, List<Track> tracks)
+
+        protected static List<Track> SearchTracksByYear(int year, List<Track> tracks)
         {
             List<Track> result = new List<Track>();
 
@@ -180,10 +180,10 @@ namespace Lab2
                 if (track.Album.Year == year)
                     result.Add(track);
 
-                    return result;
+            return result;
         }
 
-        public static List<Track> SearchTracksByGenre(string genre, List<Genre> genres, List<Artist> artists)
+        protected static List<Track> SearchTracksByGenre(string genre, List<Genre> genres, List<Artist> artists)
         {
             List<Track> result = new List<Track>();
             bool cathedEx = false;
@@ -207,8 +207,8 @@ namespace Lab2
             else 
                 return result;
         }
-        
-        public static List<Track> SearchTracksByGenre(string genre, List<Genre> genres, List<Track> tracks)
+
+        protected static List<Track> SearchTracksByGenre(string genre, List<Genre> genres, List<Track> tracks)
         {
             List<Track> result = new List<Track>();
             bool cathedEx = false;
@@ -237,7 +237,7 @@ namespace Lab2
                 return result;
         }
 
-        public static List<TrackCompilation> SearchTrackCompilationsByGenre(string genre, List<TrackCompilation> trackCompilations)
+        protected static List<TrackCompilation> SearchTrackCompilationsByGenre(string genre, List<TrackCompilation> trackCompilations)
         {
             List<TrackCompilation> tc = new List<TrackCompilation>();
 
@@ -251,7 +251,7 @@ namespace Lab2
             return tc;
         }
 
-        public static List<TrackCompilation> SearchTrackCompilationsByArtist(string artist, List<TrackCompilation> trackCompilations)
+        protected static List<TrackCompilation> SearchTrackCompilationsByArtist(string artist, List<TrackCompilation> trackCompilations)
         {
             List<TrackCompilation> tc = new List<TrackCompilation>();
             
