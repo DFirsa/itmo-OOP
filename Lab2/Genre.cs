@@ -23,24 +23,7 @@ namespace Lab2
         //subgenre == genre, but genre != subgenre
         public bool IsSubgenreOf(Genre genre)
         {
-            //TODO try to fix this
-//            return this.Equals(genre) || genre.subgenres.Any(x => x.Equals(genre));
-
-            Genre finder;
-            Queue<Genre> queue = new Queue<Genre>();
-            queue.Enqueue(genre);
-            foreach (var subgenre in genre.subgenres)
-                queue.Enqueue(subgenre);
-
-            while (queue.Count != 0)
-            {
-                finder = queue.Dequeue();
-                if (this.Equals(finder)) return true;
-                foreach (var subgenre in finder.subgenres)
-                    queue.Enqueue(subgenre);
-            }
-
-            return false;
+            return this.Equals(genre) || genre.subgenres.Any(x => x.IsSubgenreOf(this));
         }
 
         public override string ToString()
