@@ -25,7 +25,7 @@ namespace Lab2
                 foreach (var artist in catalogue.SearchArtistsByGenre(gNotFound))
                     Console.WriteLine(artist.ToString());
 
-                int year = 1995;
+                int year = 2004;
                 Console.WriteLine($" === {gNotFound} tracks of {year} === ");
                 foreach (var track in catalogue.SearchTracks(year, gNotFound))
                     Console.WriteLine(track.ToString());
