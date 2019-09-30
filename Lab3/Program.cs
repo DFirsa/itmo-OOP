@@ -9,7 +9,7 @@ namespace Lab3
             IniData iniData = Parser.ParseIni("Example.ini");
             
             Console.WriteLine(iniData["NCMD"].GetFloat("SampleRate"));
-            
+
         }
     }
 }

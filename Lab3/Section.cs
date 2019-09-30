@@ -21,17 +21,46 @@ namespace Lab3
 
         public int GetInt(string key)
         {
-            return Int32.Parse(sectionData[key]);
+            try
+            {
+                return Int32.Parse(sectionData[key]);
+            }
+            catch (InvalidCastException)
+            {
+                throw new InvalidFormat();
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new KeyNotFound();
+            }
         }
 
         public float GetFloat(string key)
         {
-            return float.Parse(sectionData[key]);
+            try
+            {
+                return float.Parse(sectionData[key]);
+            }
+            catch (InvalidCastException)
+            {
+                throw new InvalidFormat();
+            }
+            catch
+            {
+                throw new KeyNotFound();
+            }
         }
 
         public string GetString(string key)
         {
-            return sectionData[key];
+            try
+            {
+                return sectionData[key];
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new KeyNotFound();
+            }
         }
         
     }
