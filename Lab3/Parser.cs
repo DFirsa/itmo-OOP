@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 
 namespace Lab3
 {
@@ -40,16 +41,21 @@ namespace Lab3
                 if (str[0].Equals('['))
                 {
                     sectionName = str.Substring(1, str.IndexOf(']') - 1);
-                    //check naming rules
+                    if (!IsValidNaming(sectionName)) throw new InvalidNamingException();
                     iniData.AddSection(sectionName);
                 }
                 else if (sectionName == null)
-                    continue;
+                    throw new InvalidSyntaxException();
                 else
                 {
-                    string[] lineComponents = str.Split(' ');
-                    if (lineComponents.Length == 3)
-                        iniData[sectionName].AddField(lineComponents[0], lineComponents[2]);
+                    string[] lineComponents = str.Split('=');
+                    if (lineComponents.Length == 2)
+                    {
+                        string fieldName = lineComponents[0].Trim();
+                        if (!IsValidNaming(fieldName))
+                            throw new InvalidNamingException();
+                        iniData[sectionName].AddField(fieldName, lineComponents[1].Trim());
+                    }
                     else throw new InvalidSyntaxException();
                 }
             }
@@ -64,5 +70,21 @@ namespace Lab3
 
             return line;
         }
+
+        private static bool IsLatinLetter(char ch)
+        {
+            return (int) 'a' <= (int) Char.ToLower(ch) && (int) 'z' >= (int) Char.ToLower(ch);
+        }
+        
+        private static bool IsValidNaming(string name)
+        {
+            int count = 0;
+            foreach (var ch in name.ToCharArray())
+                if (Char.IsDigit(ch) || IsLatinLetter(ch) || ch.Equals('_'))
+                    count++;
+
+            return count == name.Length;
+        }
+
     }
 }

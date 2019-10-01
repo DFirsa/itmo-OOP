@@ -20,4 +20,11 @@ namespace Lab3
             get { return "Invalid Syntax Exception"; }
         }
     }
+
+    public class InvalidNamingException : Exception
+    {
+        public override string Message {
+            get { return "Invalid Naming Exception"; }
+        }
+    }
 }
