@@ -13,7 +13,7 @@ namespace Lab4
             this.connection =
                 new MySqlConnection(
                     $"Server={host}; Database={database}; Port={port}; User Id={username}; Password={password}");
-            
+
             connection.Open();
         }
 
@@ -30,6 +30,14 @@ namespace Lab4
             return count != 0;
         }
 
+        int getStoreId(string store)
+        {
+            string command = $"SELECT id FROM store.info WHERE name = '{store}'";
+            MySqlCommand sqlCommand = new MySqlCommand(command, connection);
+
+            return Int32.Parse(sqlCommand.ExecuteScalar().ToString());
+        }
+
         public void CreateStore(string name)
         {
             if (!haveSomething($"SELECT COUNT(name) FROM storeinfo.stores WHERE name = {name}"))
@@ -40,13 +48,33 @@ namespace Lab4
             }
         }
 
-        public void CreateProduct(string productName, string store)
+        public void CreateProduct(string productName, string store, float price)
         {
+            if (!haveSomething($"SELECT COUNT(name) FROM storeinfo.stores WHERE name = '{store}'"))
+            {
+                CreateStore(store);
+                CreateProduct(productName, store, price);
+            }
+            else
+            {
+                int id = getStoreId(store);
+                string command =
+                    $"INSERT INTO storeinfo.products (name, store_id, number, price) VALUES ('{productName}', {id}, 0, {price})";
+                
+                MySqlCommand sqlCommand = new MySqlCommand(command, connection);
+                sqlCommand.ExecuteNonQuery();
+            }
         }
 
         public void DeliverShipment(List<ShipmentProduct> shipment)
         {
-            throw new System.NotImplementedException();
+            foreach (var shipmentProduct in shipment)
+            {
+                if (!haveSomething($"SELECT COUNT (id) FROM storeinfo.products WHERE "))
+                {
+                    //todo dopisat'
+                }
+            }
         }
 
         public List<string> FindCheapestStore(string productName)

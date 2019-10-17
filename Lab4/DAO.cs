@@ -6,7 +6,7 @@ namespace Lab4
     {
         void CreateStore(string name);
 
-        void CreateProduct(string productName, string store);
+        void CreateProduct(string productName, string store, float price);
 
         void DeliverShipment(List<ShipmentProduct> shipment);
 
