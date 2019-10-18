@@ -38,6 +38,20 @@ namespace Lab4
             return Int32.Parse(sqlCommand.ExecuteScalar().ToString());
         }
 
+        bool haveStore(string store)
+        {
+            return haveSomething($"SELECT COUNT(name) FROM storeinfo.stores WHERE name = '{store}'");
+        }
+
+        bool haveProduct(string product, string store)
+        {
+            if (!haveStore(store)) return false;
+
+            int id = getStoreId(store);
+            return haveSomething(
+                $"SELECT COUNT(name) FROM storeinfo.stores WHERE name = '{product}' AND store_id = {id}");
+        }
+
         public void CreateStore(string name)
         {
             if (!haveSomething($"SELECT COUNT(name) FROM storeinfo.stores WHERE name = {name}"))
@@ -50,51 +64,105 @@ namespace Lab4
 
         public void CreateProduct(string productName, string store, float price)
         {
-            if (!haveSomething($"SELECT COUNT(name) FROM storeinfo.stores WHERE name = '{store}'"))
+            if (!haveStore(store))
             {
                 CreateStore(store);
                 CreateProduct(productName, store, price);
             }
             else
             {
+                if (haveProduct(productName, store)) return;
+
                 int id = getStoreId(store);
                 string command =
                     $"INSERT INTO storeinfo.products (name, store_id, number, price) VALUES ('{productName}', {id}, 0, {price})";
-                
+
                 MySqlCommand sqlCommand = new MySqlCommand(command, connection);
                 sqlCommand.ExecuteNonQuery();
             }
         }
 
-        public void DeliverShipment(List<ShipmentProduct> shipment)
+        public void DeliverShipment(List<Shipment> shipments, string store)
         {
-            foreach (var shipmentProduct in shipment)
+            foreach (var shipment in shipments)
             {
-                if (!haveSomething($"SELECT COUNT (id) FROM storeinfo.products WHERE "))
+                if (!haveStore(store))
                 {
-                    //todo dopisat'
+                    CreateProduct(shipment.product, store, shipment.price);
+                    int id = getStoreId(store);
+                    string command =
+                        $"UPDATE storeinfo.products SET number = {shipment.count}, price = {shipment.price} WHERE store_id = {id}";
+
+                    MySqlCommand sqlCommand = new MySqlCommand(command, connection);
+                    sqlCommand.ExecuteNonQuery();
+                }
+                else
+                {
+                    if (!haveProduct(shipment.product, store))
+                    {
+                        CreateProduct(shipment.product, store, shipment.price);
+
+                        int id = getStoreId(store);
+                        string command =
+                            $"UPDATE storeinfo.products SET number = {shipment.count} + number WHERE store_id = {id} AND name = '{shipment.product}'";
+
+                        MySqlCommand sqlCommand = new MySqlCommand(command, connection);
+                        sqlCommand.ExecuteNonQuery();
+                    }
+                    else
+                    {
+                        int id = getStoreId(store);
+                        string command =
+                            $"UPDATE storeinfo.products SET number = {shipment.count} + number, price = {shipment.price} WHERE store_id = {id} AND name = '{shipment.product}'";
+
+                        MySqlCommand sqlCommand = new MySqlCommand(command, connection);
+                        sqlCommand.ExecuteNonQuery();
+                    }
                 }
             }
         }
 
         public List<string> FindCheapestStore(string productName)
         {
-            throw new System.NotImplementedException();
+            string command =
+                $"SELECT store.name, products.price FROM storeinfo.stores AS store INNER JOIN storeinfo.products AS products ON store.id = products.store_id WHERE products.name = '{productName}'";
+            MySqlCommand sqlCommand = new MySqlCommand(command, connection);
+            MySqlDataReader reader = sqlCommand.ExecuteReader();
+            
+            List<string> data = new List<string>();
+            while (reader.Read())
+                data.Add(reader[0].ToString() + " " + reader[1].ToString());
+
+            return data;
         }
 
-        public List<ItemCountPair> CanBuy(int moneySum)
+        public List<string> GetProductsInfo(string store)
         {
-            throw new System.NotImplementedException();
+            int id = getStoreId(store);
+            string command =
+                $"SELECT name, price FROM storeinfo.products WHERE store_id = {id}";
+            MySqlCommand sqlCommand = new MySqlCommand(command, connection);
+            MySqlDataReader reader = sqlCommand.ExecuteReader();
+            
+            List<string> data = new List<string>();
+            while (reader.Read())
+                data.Add(reader[0].ToString() + " " + reader[1].ToString());
+
+            return data;
         }
 
-        public float BuyShipment(List<ItemCountPair> shipment)
+        public List<string> FindCheapestStore(List<Products> shipment)
         {
-            throw new System.NotImplementedException();
-        }
+            string command =
+                $"SELECT store.name, products.price, products.name FROM storeinfo.stores AS store INNER JOIN storeinfo.products AS products ON store.id = products.store_id";
+            MySqlCommand sqlCommand = new MySqlCommand(command, connection);
+            MySqlDataReader reader = sqlCommand.ExecuteReader();
+            
+            List<string> data = new List<string>();
+            while (reader.Read())
+                data.Add(reader[0].ToString() + " " + reader[1].ToString() + " " + reader[2].ToString());
 
-        public List<string> FindCheapestStore(List<ItemCountPair> shipment)
-        {
-            throw new System.NotImplementedException();
+            return data;
         }
     }
 }

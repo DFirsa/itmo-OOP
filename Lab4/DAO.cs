@@ -8,15 +8,13 @@ namespace Lab4
 
         void CreateProduct(string productName, string store, float price);
 
-        void DeliverShipment(List<ShipmentProduct> shipment);
+        void DeliverShipment(List<Shipment> shipments, string store);
 
         List<string> FindCheapestStore(string productName);
 
-        List<ItemCountPair> CanBuy(int moneySum);
+        List<string> GetProductsInfo(string store);
 
-        float BuyShipment(List<ItemCountPair> shipment);
-
-        List<string> FindCheapestStore(List<ItemCountPair> shipment);
+        List<string> FindCheapestStore(List<Products> shipment);
         
     }
 }
