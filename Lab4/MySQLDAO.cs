@@ -122,7 +122,7 @@ namespace Lab4
             }
         }
 
-        public List<string> FindCheapestStore(string productName)
+        public List<string> FindCheapestProductStore(string productName)
         {
             string command =
                 $"SELECT store.name, products.price FROM storeinfo.stores AS store INNER JOIN storeinfo.products AS products ON store.id = products.store_id WHERE products.name = '{productName}'";
@@ -131,7 +131,7 @@ namespace Lab4
             
             List<string> data = new List<string>();
             while (reader.Read())
-                data.Add(reader[0].ToString() + " " + reader[1].ToString());
+                data.Add(reader[0].ToString() + "$" + reader[1].ToString());
 
             return data;
         }
@@ -146,7 +146,7 @@ namespace Lab4
             
             List<string> data = new List<string>();
             while (reader.Read())
-                data.Add(reader[0].ToString() + " " + reader[1].ToString());
+                data.Add(reader[0].ToString() + "$" + reader[1].ToString());
 
             return data;
         }
@@ -160,7 +160,7 @@ namespace Lab4
             
             List<string> data = new List<string>();
             while (reader.Read())
-                data.Add(reader[0].ToString() + " " + reader[1].ToString() + " " + reader[2].ToString());
+                data.Add(reader[0].ToString() + "$" + reader[1].ToString() + "$" + reader[2].ToString());
 
             return data;
         }

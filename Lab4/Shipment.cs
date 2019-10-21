@@ -2,14 +2,17 @@
 {
     public class Products
     {
-        public readonly string product;
-        public readonly int count;
+        private readonly string product;
+        private readonly int count;
 
         public Products(string product, int count, float price)
         {
             this.product = product;
             this.count = count;
         }
+
+        public string Product => product;
+        public int Count => count;
     }
 
     public struct Shipment
@@ -20,7 +23,7 @@
 
         public Shipment(string product, int count, float price)
         {
-            this.product = product;
+            this.product = product.ToLower();
             this.count = count;
             this.price = price;
         }

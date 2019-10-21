@@ -10,7 +10,7 @@ namespace Lab4
 
         void DeliverShipment(List<Shipment> shipments, string store);
 
-        List<string> FindCheapestStore(string productName);
+        List<string> FindCheapestProductStore(string productName);
 
         List<string> GetProductsInfo(string store);
 
