@@ -1,0 +1,20 @@
+﻿[IS CORRECT]
+- store addition
+- haveSomething function
+- product addition
+- product addition (without store)
+- have product function
+- have store function
+- get store id function
+- shipment delivering
+- shipment delivering (without store)
+- shipment delivering (without product)
+- finding cheapest store by product
+- get count products
+- buy shipment
+
+[NEED TO FIX]
+
+[NEED TO CHECK]
+- find cheapest store by shipment
+

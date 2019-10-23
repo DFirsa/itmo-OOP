@@ -27,12 +27,6 @@ namespace Lab4
             sqlDao = new MySQLDAO("localhost", 3306, "StoreInfo", "root", "qoe74859");
         }
 
-        string LineToFormat(string line)
-        {
-            line.Substring(0, line.IndexOf('$')).Trim();
-            return Char.ToUpper(line[0]) + line.Substring(1).ToLower();
-        }
-
         string ToFormat(string line)
         {
             line.Trim();
@@ -95,8 +89,9 @@ namespace Lab4
 
             for (int i = 0; i < prices.Count; i++)
             {
+                string[] info = prices[i].Split('$');
                 if (minPrice == shopPrice[i])
-                    cheapestStore.Add(LineToFormat(prices[i]));
+                    cheapestStore.Add(ToFormat(info[0]));
             }
 
             return cheapestStore;
@@ -124,7 +119,7 @@ namespace Lab4
 
         public float BuyShipment(List<Products> shipment, string store)
         {
-            List<string> productsInfo = sqlDao.GetProductsInfo(store);
+            List<string> productsInfo = sqlDao.GetProductsInfo(ToDBFormat(store));
             float sum = 0;
 
             List<int> productBought = new List<int>();
@@ -141,7 +136,7 @@ namespace Lab4
             }
 
             for (int i = 0; i < shipment.Count; i++)
-                sqlDao.DecreaseCount(shipment[i].Product, store, productBought[i]);
+                sqlDao.DecreaseCount(ToDBFormat(shipment[i].Product), ToDBFormat(store), productBought[i]);
 
             return sum;
         }
@@ -162,8 +157,11 @@ namespace Lab4
                     continue;
                 }
             }
+            
+            List<float> prices = new List<float>();
+            foreach (var price in pairs) prices.Add(price.price); 
 
-            float minSum = pairs.Min(x => x.price);
+            float minSum = prices.Min();
             List<string> result = new List<string>();
             foreach (var pair in pairs)
             {

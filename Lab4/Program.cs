@@ -9,6 +9,12 @@ namespace Lab4
         {
             Client client = new Client();
             client.addStores();
+            client.addProducts();
+            client.DeliverShipment();
+            client.FindCheapestStoreForProduct();
+            client.BuyingOportunity();
+            client.buyShipment();
+            client.cheapestStore();
         }
     }
 }

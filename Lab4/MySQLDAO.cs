@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using MySql.Data.MySqlClient;
 
 namespace Lab4
@@ -32,7 +33,7 @@ namespace Lab4
 
         int getStoreId(string store)
         {
-            string command = $"SELECT id FROM store.info WHERE name = '{store}'";
+            string command = $"SELECT id FROM storeinfo.stores WHERE name = '{store}'";
             MySqlCommand sqlCommand = new MySqlCommand(command, connection);
 
             return Int32.Parse(sqlCommand.ExecuteScalar().ToString());
@@ -49,12 +50,13 @@ namespace Lab4
 
             int id = getStoreId(store);
             return haveSomething(
-                $"SELECT COUNT(name) FROM storeinfo.stores WHERE name = '{product}' AND store_id = {id}");
+                "SELECT COUNT(name) FROM storeinfo.products" +
+                $" WHERE name = '{product}' AND store_id = {id}");
         }
 
         public void CreateStore(string name)
         {
-            if (!haveSomething($"SELECT COUNT(name) FROM storeinfo.stores WHERE name = {name}"))
+            if (!haveSomething($"SELECT COUNT(name) FROM storeinfo.stores WHERE name = '{name}'"))
             {
                 string command = $"INSERT INTO storeinfo.stores (name) VALUE('{name}') ";
                 MySqlCommand sqlCommand = new MySqlCommand(command, connection);
@@ -75,7 +77,8 @@ namespace Lab4
 
                 int id = getStoreId(store);
                 string command =
-                    $"INSERT INTO storeinfo.products (name, store_id, number, price) VALUES ('{productName}', {id}, 0, {price})";
+                    "INSERT INTO storeinfo.products (name, store_id, number, price)" +
+                $"VALUES ('{productName}', {id}, 0, {price.ToString("F2", CultureInfo.InvariantCulture)})";
 
                 MySqlCommand sqlCommand = new MySqlCommand(command, connection);
                 sqlCommand.ExecuteNonQuery();
@@ -113,7 +116,7 @@ namespace Lab4
                     {
                         int id = getStoreId(store);
                         string command =
-                            $"UPDATE storeinfo.products SET number = {shipment.count} + number, price = {shipment.price} WHERE store_id = {id} AND name = '{shipment.product}'";
+                            $"UPDATE storeinfo.products SET number = {shipment.count} + number, price = {shipment.price.ToString("F2", CultureInfo.InvariantCulture)} WHERE store_id = {id} AND name = '{shipment.product}'";
 
                         MySqlCommand sqlCommand = new MySqlCommand(command, connection);
                         sqlCommand.ExecuteNonQuery();
@@ -133,6 +136,7 @@ namespace Lab4
             while (reader.Read())
                 data.Add(reader[0].ToString() + "$" + reader[1].ToString());
 
+            reader.Close();
             return data;
         }
 
@@ -148,6 +152,7 @@ namespace Lab4
             while (reader.Read())
                 data.Add(reader[0].ToString() + "$" + reader[1].ToString() + "$" + reader[2].ToString());
 
+            reader.Close();
             return data;
         }
 
@@ -155,7 +160,7 @@ namespace Lab4
         {
             int id = getStoreId(store);
             string command =
-                $"UPDATE storeinfo.products SET number = number - {count} WHERE store_id = {id} AND name = product";
+                $"UPDATE storeinfo.products SET number = number - {count} WHERE store_id = {id} AND name = '{product}'";
             MySqlCommand sqlCommand = new MySqlCommand(command, connection);
             sqlCommand.ExecuteNonQuery();
         }
@@ -169,6 +174,7 @@ namespace Lab4
             List<string> stores = new List<string>();
             while (reader.Read()) stores.Add(reader.ToString());
 
+            reader.Close();
             return stores;
         }
     }
