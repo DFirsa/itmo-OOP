@@ -5,9 +5,9 @@
         private readonly string product;
         private readonly int count;
 
-        public Products(string product, int count, float price)
+        public Products(string product, int count)
         {
-            this.product = product;
+            this.product = product.ToLower();
             this.count = count;
         }
 
@@ -15,7 +15,7 @@
         public int Count => count;
     }
 
-    public struct Shipment
+    public class Shipment
     {
         public readonly string product;
         public readonly int count;

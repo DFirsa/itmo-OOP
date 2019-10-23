@@ -14,7 +14,9 @@ namespace Lab4
 
         List<string> GetProductsInfo(string store);
 
-        List<string> FindCheapestStore(List<Products> shipment);
-        
+        void DecreaseCount(string product, string store, int count);
+
+        List<string> GetStoresList();
+
     }
 }

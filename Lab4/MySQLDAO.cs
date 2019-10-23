@@ -128,7 +128,7 @@ namespace Lab4
                 $"SELECT store.name, products.price FROM storeinfo.stores AS store INNER JOIN storeinfo.products AS products ON store.id = products.store_id WHERE products.name = '{productName}'";
             MySqlCommand sqlCommand = new MySqlCommand(command, connection);
             MySqlDataReader reader = sqlCommand.ExecuteReader();
-            
+
             List<string> data = new List<string>();
             while (reader.Read())
                 data.Add(reader[0].ToString() + "$" + reader[1].ToString());
@@ -140,29 +140,36 @@ namespace Lab4
         {
             int id = getStoreId(store);
             string command =
-                $"SELECT name, price FROM storeinfo.products WHERE store_id = {id}";
+                $"SELECT name, price, number FROM storeinfo.products WHERE store_id = {id}";
             MySqlCommand sqlCommand = new MySqlCommand(command, connection);
             MySqlDataReader reader = sqlCommand.ExecuteReader();
-            
-            List<string> data = new List<string>();
-            while (reader.Read())
-                data.Add(reader[0].ToString() + "$" + reader[1].ToString());
 
-            return data;
-        }
-
-        public List<string> FindCheapestStore(List<Products> shipment)
-        {
-            string command =
-                $"SELECT store.name, products.price, products.name FROM storeinfo.stores AS store INNER JOIN storeinfo.products AS products ON store.id = products.store_id";
-            MySqlCommand sqlCommand = new MySqlCommand(command, connection);
-            MySqlDataReader reader = sqlCommand.ExecuteReader();
-            
             List<string> data = new List<string>();
             while (reader.Read())
                 data.Add(reader[0].ToString() + "$" + reader[1].ToString() + "$" + reader[2].ToString());
 
             return data;
+        }
+
+        public void DecreaseCount(string product, string store, int count)
+        {
+            int id = getStoreId(store);
+            string command =
+                $"UPDATE storeinfo.products SET number = number - {count} WHERE store_id = {id} AND name = product";
+            MySqlCommand sqlCommand = new MySqlCommand(command, connection);
+            sqlCommand.ExecuteNonQuery();
+        }
+
+        public List<string> GetStoresList()
+        {
+            string command = "SELECT * FROM storeinfo.stores";
+            MySqlCommand sqlCommand = new MySqlCommand(command, connection);
+            MySqlDataReader reader = sqlCommand.ExecuteReader();
+            
+            List<string> stores = new List<string>();
+            while (reader.Read()) stores.Add(reader.ToString());
+
+            return stores;
         }
     }
 }
