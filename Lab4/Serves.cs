@@ -20,7 +20,6 @@ namespace Lab4
     public class Serves
     {
         private MySQLDAO sqlDao;
-//        private FileDAO fileDao;
 
         public Serves()
         {
@@ -77,20 +76,13 @@ namespace Lab4
         {
             List<string> prices = sqlDao.FindCheapestProductStore(product);
             List<string> cheapestStore = new List<string>();
-
-            List<float> shopPrice = new List<float>();
-            foreach (var pair in prices)
-            {
-                string[] str = pair.Split('$');
-                shopPrice.Add(float.Parse(str[1]));
-            }
-
-            float minPrice = shopPrice.Min();
+            
+            float minPrice = prices.Min(x => float.Parse(x.Substring(x.IndexOf('$')+1)));
 
             for (int i = 0; i < prices.Count; i++)
             {
                 string[] info = prices[i].Split('$');
-                if (minPrice == shopPrice[i])
+                if (minPrice == float.Parse(info[1]))
                     cheapestStore.Add(ToFormat(info[0]));
             }
 
@@ -113,7 +105,8 @@ namespace Lab4
                 if (count > 0) products.Add(new Products(product, count));
             }
             
-//                if (products.Count == 0) exception
+            if (products.Count == 0) throw new EmptyResponse();
+
             return products;
         }
 
@@ -127,9 +120,8 @@ namespace Lab4
             foreach (var product in shipment)
             {
                 Shipment productInfo = GetShipment(productsInfo, product.Product);
-//                if (productInfo == null) exception
-
-//                if (productInfo.count < product.Count) exception
+                if (productInfo == null) throw new EmptyResponse();
+                if (productInfo.count < product.Count) throw new NotEnoughExceptions();
 
                 sum += productInfo.price * product.Count;
                 productBought.Add(product.Count);
@@ -152,16 +144,11 @@ namespace Lab4
                 {
                     pairs.Add(new Pair(BuyShipment(shipment, store), store));
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     continue;
                 }
             }
-//            
-//            List<float> prices = new List<float>();
-//            foreach (var price in pairs) prices.Add(price.price); 
-//
-//            float minSum = prices.Min();
 
             float minSum = pairs.Min(x => x.price);            
 
@@ -171,7 +158,7 @@ namespace Lab4
                 if (pair.price == minSum) result.Add(ToFormat(pair.store));
             }
 
-//            if (result.Count == 0) exception
+            if (result.Count == 0) throw new EmptyResponse();
 
             return result;
         }

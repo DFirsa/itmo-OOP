@@ -89,38 +89,19 @@ namespace Lab4
         {
             foreach (var shipment in shipments)
             {
-                if (!haveStore(store))
+                if (!haveStore(store) || !haveProduct(shipment.product, store))
                 {
                     CreateProduct(shipment.product, store, shipment.price);
-                    int id = getStoreId(store);
-                    string command =
-                        $"UPDATE storeinfo.products SET number = {shipment.count}, price = {shipment.price} WHERE store_id = {id}";
-
-                    MySqlCommand sqlCommand = new MySqlCommand(command, connection);
-                    sqlCommand.ExecuteNonQuery();
+                    DeliverShipment(shipments, store);
                 }
                 else
                 {
-                    if (!haveProduct(shipment.product, store))
-                    {
-                        CreateProduct(shipment.product, store, shipment.price);
+                    int id = getStoreId(store);
+                    string command =
+                        $"UPDATE storeinfo.products SET number = {shipment.count} + number, price = {shipment.price.ToString("F2", CultureInfo.InvariantCulture)} WHERE store_id = {id} AND name = '{shipment.product}'";
 
-                        int id = getStoreId(store);
-                        string command =
-                            $"UPDATE storeinfo.products SET number = {shipment.count} + number WHERE store_id = {id} AND name = '{shipment.product}'";
-
-                        MySqlCommand sqlCommand = new MySqlCommand(command, connection);
-                        sqlCommand.ExecuteNonQuery();
-                    }
-                    else
-                    {
-                        int id = getStoreId(store);
-                        string command =
-                            $"UPDATE storeinfo.products SET number = {shipment.count} + number, price = {shipment.price.ToString("F2", CultureInfo.InvariantCulture)} WHERE store_id = {id} AND name = '{shipment.product}'";
-
-                        MySqlCommand sqlCommand = new MySqlCommand(command, connection);
-                        sqlCommand.ExecuteNonQuery();
-                    }
+                    MySqlCommand sqlCommand = new MySqlCommand(command, connection);
+                    sqlCommand.ExecuteNonQuery();
                 }
             }
         }
