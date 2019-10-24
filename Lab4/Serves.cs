@@ -157,11 +157,14 @@ namespace Lab4
                     continue;
                 }
             }
-            
-            List<float> prices = new List<float>();
-            foreach (var price in pairs) prices.Add(price.price); 
+//            
+//            List<float> prices = new List<float>();
+//            foreach (var price in pairs) prices.Add(price.price); 
+//
+//            float minSum = prices.Min();
 
-            float minSum = prices.Min();
+            float minSum = pairs.Min(x => x.price);            
+
             List<string> result = new List<string>();
             foreach (var pair in pairs)
             {

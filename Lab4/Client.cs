@@ -23,7 +23,7 @@ namespace Lab4
         public void addStores()
         {
             serves.createStore("7Я");
-            serves.createStore("Пятёрочка");
+            serves.createStore("kek");
             serves.createStore("Spar");
             serves.createStore("Магнит");
             serves.createStore("Окей");

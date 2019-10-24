@@ -167,12 +167,12 @@ namespace Lab4
 
         public List<string> GetStoresList()
         {
-            string command = "SELECT * FROM storeinfo.stores";
+            string command = "SELECT name FROM storeinfo.stores";
             MySqlCommand sqlCommand = new MySqlCommand(command, connection);
             MySqlDataReader reader = sqlCommand.ExecuteReader();
             
             List<string> stores = new List<string>();
-            while (reader.Read()) stores.Add(reader.ToString());
+            while (reader.Read()) stores.Add(reader[0].ToString());
 
             reader.Close();
             return stores;
