@@ -10,13 +10,16 @@ namespace Lab5
             Stream stream = File.Create(path);
             XmlSerializer xml = new XmlSerializer(typeof(Triangle));
             xml.Serialize(stream, triangle);
+            stream.Close();
         }
 
         public Triangle Deserialize(string path)
         {
             Stream stream = File.OpenRead(path);
             XmlSerializer xml = new XmlSerializer(typeof(Triangle));
-            return (Triangle) xml.Deserialize(stream);
+            Triangle result = (Triangle) xml.Deserialize(stream);
+            stream.Close();
+            return result;
         }
     }
 }
