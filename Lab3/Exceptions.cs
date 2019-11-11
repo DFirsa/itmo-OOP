@@ -4,17 +4,17 @@ using System.IO;
 
 namespace Lab3
 {
-    public class FileNotFound: FileNotFoundException{}
+    public class IniFileNotFound: FileNotFoundException{}
     
-    public class DirectoryNotFound: DirectoryNotFoundException{}
+    public class MyIniDirectoryNotFound: DirectoryNotFoundException{}
 
-    public class FileFormatException : FormatException {}
+    public class IniFileFormatException : FormatException {}
     
-    public class InvalidFormat: InvalidCastException{}
+    public class IniFileInvalidFormat: InvalidCastException{}
     
-    public class KeyNotFound: KeyNotFoundException{}
+    public class MyIniKeyNotFound: KeyNotFoundException{}
 
-    public class InvalidSyntaxException : Exception
+    public class IniInvalidSyntaxException : Exception
     {
         public override string Message {
             get { return "Invalid Syntax Exception"; }

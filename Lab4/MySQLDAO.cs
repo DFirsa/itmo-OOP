@@ -5,7 +5,7 @@ using MySql.Data.MySqlClient;
 
 namespace Lab4
 {
-    public class MySQLDAO : DAO
+    public class MySQLDAO : DAO, IDisposable
     {
         private MySqlConnection connection;
 
@@ -18,7 +18,7 @@ namespace Lab4
             connection.Open();
         }
 
-        ~MySQLDAO()
+        public void Dispose()
         {
             connection.Close();
         }

@@ -13,7 +13,7 @@ namespace Lab3
             string[] lines;
 
             if (!path.Substring(path.IndexOf('.') + 1, path.Length - path.IndexOf('.') - 1).Equals("ini"))
-                throw new FileFormatException();
+                throw new IniFileFormatException();
 
 
             try
@@ -22,11 +22,11 @@ namespace Lab3
             }
             catch (FileNotFoundException)
             {
-                throw new FileNotFound();
+                throw new IniFileNotFound();
             }
             catch (DirectoryNotFoundException)
             {
-                throw new DirectoryNotFound();
+                throw new MyIniDirectoryNotFound();
             }
 
             string sectionName = null;
@@ -45,7 +45,7 @@ namespace Lab3
                     iniData.AddSection(sectionName);
                 }
                 else if (sectionName == null)
-                    throw new InvalidSyntaxException();
+                    throw new IniInvalidSyntaxException();
                 else
                 {
                     string[] lineComponents = str.Split('=');
@@ -56,7 +56,7 @@ namespace Lab3
                             throw new InvalidNamingException();
                         iniData[sectionName].AddField(fieldName, lineComponents[1].Trim());
                     }
-                    else throw new InvalidSyntaxException();
+                    else throw new IniInvalidSyntaxException();
                 }
             }
 

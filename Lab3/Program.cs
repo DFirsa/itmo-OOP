@@ -8,9 +8,14 @@ namespace Lab3
         public static void Main(string[] args)
         {
             IniData iniData = Parser.ParseIni("Example.ini");
-            
-            Console.WriteLine(iniData["NCMD"].GetFloat("SampleRate"));
-
+            try
+            {
+                Console.WriteLine(iniData["ADC_DEV"].GetFloat("BufferLenSeconds"));
+            }
+            catch (Exception e)
+            {
+                
+            }
         }
     }
 }

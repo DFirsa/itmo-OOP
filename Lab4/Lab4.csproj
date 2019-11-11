@@ -66,6 +66,7 @@
     <Compile Include="Client.cs" />
     <Compile Include="DAO.cs" />
     <Compile Include="Exceptions.cs" />
+    <Compile Include="FileDAO.cs" />
     <Compile Include="MySQLDAO.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

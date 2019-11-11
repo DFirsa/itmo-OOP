@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace Lab3
 {
@@ -27,11 +28,11 @@ namespace Lab3
             }
             catch (InvalidCastException)
             {
-                throw new InvalidFormat();
+                throw new IniFileInvalidFormat();
             }
             catch (KeyNotFoundException)
             {
-                throw new KeyNotFound();
+                throw new MyIniKeyNotFound();
             }
         }
 
@@ -39,15 +40,15 @@ namespace Lab3
         {
             try
             {
-                return float.Parse(sectionData[key]);
+                return float.Parse(sectionData[key], CultureInfo.InvariantCulture);
             }
             catch (InvalidCastException)
             {
-                throw new InvalidFormat();
+                throw new IniFileInvalidFormat();
             }
             catch
             {
-                throw new KeyNotFound();
+                throw new MyIniKeyNotFound();
             }
         }
 
@@ -59,7 +60,7 @@ namespace Lab3
             }
             catch (KeyNotFoundException)
             {
-                throw new KeyNotFound();
+                throw new MyIniKeyNotFound();
             }
         }
         

@@ -17,7 +17,7 @@ namespace Lab4
             this.store = store;
         }
     }
-    public class Serves
+    public class Serves //Service
     {
         private MySQLDAO sqlDao;
 
