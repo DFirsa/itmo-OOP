@@ -17,13 +17,23 @@ namespace Lab4
             this.store = store;
         }
     }
-    public class Serves //Service
+    public class Service
     {
-        private MySQLDAO sqlDao;
+        private Resource resource;
 
-        public Serves()
+        public Service(bool useDB)
         {
-            sqlDao = new MySQLDAO("localhost", 3306, "StoreInfo", "root", "qoe74859");
+            Connector connector;
+            if (useDB)
+            {
+                connector = new DBConnector();
+                resource = connector.Create();
+            }
+            else
+            {
+                connector = new FileConnector();
+                resource = connector.Create();
+            }
         }
 
         string ToFormat(string line)
@@ -59,22 +69,22 @@ namespace Lab4
 
         public void createStore(string store)
         {
-            sqlDao.CreateStore(ToDBFormat(store));
+            resource.CreateStore(ToDBFormat(store));
         }
 
         public void CreateProduct(string store, string product, float price)
         {
-            sqlDao.CreateProduct(ToDBFormat(product), ToDBFormat(store), price);
+            resource.CreateProduct(ToDBFormat(product), ToDBFormat(store), price);
         }
 
         public void DeliverShipment(List<Shipment> shipments, string store)
         {
-            sqlDao.DeliverShipment(shipments, ToDBFormat(store));
+            resource.DeliverShipment(shipments, ToDBFormat(store));
         }
 
         public List<string> FindCheapestProductStores(string product)
         {
-            List<string> prices = sqlDao.FindCheapestProductStore(product);
+            List<string> prices = resource.FindCheapestProductStore(product);
             List<string> cheapestStore = new List<string>();
             
             float minPrice = prices.Min(x => float.Parse(x.Substring(x.IndexOf('$')+1)));
@@ -91,7 +101,7 @@ namespace Lab4
 
         public List<Products> GetCountProducts(float sum, string store)
         {
-            List<string> sqlInfo = sqlDao.GetProductsInfo(store);
+            List<string> sqlInfo = resource.GetProductsInfo(store);
             List<Products> products = new List<Products>();
 
             foreach (var line in sqlInfo)
@@ -112,7 +122,7 @@ namespace Lab4
 
         public float BuyShipment(List<Products> shipment, string store)
         {
-            List<string> productsInfo = sqlDao.GetProductsInfo(ToDBFormat(store));
+            List<string> productsInfo = resource.GetProductsInfo(ToDBFormat(store));
             float sum = 0;
 
             List<int> productBought = new List<int>();
@@ -128,14 +138,14 @@ namespace Lab4
             }
 
             for (int i = 0; i < shipment.Count; i++)
-                sqlDao.DecreaseCount(ToDBFormat(shipment[i].Product), ToDBFormat(store), productBought[i]);
+                resource.DecreaseCount(ToDBFormat(shipment[i].Product), ToDBFormat(store), productBought[i]);
 
             return sum;
         }
 
         public List<string> FindCheapestStores(List<Products> shipment)
         {
-            List<string> stores = sqlDao.GetStoresList();
+            List<string> stores = resource.GetStoresList();
             List<Pair> pairs = new List<Pair>();
                 
             foreach (var store in stores)

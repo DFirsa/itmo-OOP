@@ -7,7 +7,7 @@ using Org.BouncyCastle.Bcpg;
 
 namespace Lab4
 {
-    public class FileDAO : DAO
+    public class FileDAO : Resource
     {
         private StreamWriter writer;
         private StreamReader reader;
@@ -40,12 +40,12 @@ namespace Lab4
             return id;
         }
 
-        void DAO.CreateStore(string name)
+        public override void CreateStore(string name)
         {
-            CreateStore(name);
+            MakeStore(name);
         }
 
-        public int CreateStore(string name)
+        public int MakeStore(string name)
         {
             int sId = getStoreId(pathStores);
             writer = File.AppendText(pathStores);
@@ -81,14 +81,14 @@ namespace Lab4
             return result;
         }
 
-        public void CreateProduct(string productName, string store, float price)
+        public override void CreateProduct(string productName, string store, float price)
         {
             CreateProduct(productName, store, 0, price);
         }
 
         private void CreateProduct(string productName, string store, int count, float price)
         {
-            int storeId = CreateStore(store);
+            int storeId = MakeStore(store);
             if (haveProduct(productName, storeId)) return;
 
             writer = File.AppendText(pathProducts);
@@ -96,7 +96,7 @@ namespace Lab4
             writer.Close();
         }
 
-        public void DeliverShipment(List<Shipment> shipments, string store)
+        public override void DeliverShipment(List<Shipment> shipments, string store)
         {
             int storeID = getStoreId(store);
             foreach (var shipment in shipments)
@@ -159,7 +159,7 @@ namespace Lab4
             return result;
         }
 
-        public List<string> FindCheapestProductStore(string productName)
+        public override List<string> FindCheapestProductStore(string productName)
         {
             List<string> data = new List<string>();
             reader = File.OpenText(pathProducts);
@@ -178,7 +178,7 @@ namespace Lab4
             return data;
         }
 
-        public List<string> GetProductsInfo(string store)
+        public override List<string> GetProductsInfo(string store)
         {
             int storeId = getStoreId(store);
             reader = File.OpenText(pathProducts);
@@ -196,7 +196,7 @@ namespace Lab4
             return info;
         }
 
-        public void DecreaseCount(string product, string store, int count)
+        public override void DecreaseCount(string product, string store, int count)
         {
             int id = getStoreId(store);
             reader = File.OpenText(pathProducts);
@@ -225,7 +225,7 @@ namespace Lab4
             writer.Close();
         }
 
-        public List<string> GetStoresList()
+        public override List<string> GetStoresList()
         {
             List<string> result = new List<string>();
             reader = File.OpenText(pathStores);

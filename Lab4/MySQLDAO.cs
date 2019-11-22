@@ -5,7 +5,7 @@ using MySql.Data.MySqlClient;
 
 namespace Lab4
 {
-    public class MySQLDAO : DAO, IDisposable
+    public class MySQLDAO : Resource, IDisposable
     {
         private MySqlConnection connection;
 
@@ -54,7 +54,7 @@ namespace Lab4
                 $" WHERE name = '{product}' AND store_id = {id}");
         }
 
-        public void CreateStore(string name)
+        public override void CreateStore(string name)
         {
             if (!haveSomething($"SELECT COUNT(name) FROM storeinfo.stores WHERE name = '{name}'"))
             {
@@ -64,7 +64,7 @@ namespace Lab4
             }
         }
 
-        public void CreateProduct(string productName, string store, float price)
+        public override void CreateProduct(string productName, string store, float price)
         {
             if (!haveStore(store))
             {
@@ -85,7 +85,7 @@ namespace Lab4
             }
         }
 
-        public void DeliverShipment(List<Shipment> shipments, string store)
+        public override void DeliverShipment(List<Shipment> shipments, string store)
         {
             foreach (var shipment in shipments)
             {
@@ -106,7 +106,7 @@ namespace Lab4
             }
         }
 
-        public List<string> FindCheapestProductStore(string productName)
+        public override List<string> FindCheapestProductStore(string productName)
         {
             string command =
                 $"SELECT store.name, products.price FROM storeinfo.stores AS store INNER JOIN storeinfo.products AS products ON store.id = products.store_id WHERE products.name = '{productName}'";
@@ -121,7 +121,7 @@ namespace Lab4
             return data;
         }
 
-        public List<string> GetProductsInfo(string store)
+        public override List<string> GetProductsInfo(string store)
         {
             int id = getStoreId(store);
             string command =
@@ -137,7 +137,7 @@ namespace Lab4
             return data;
         }
 
-        public void DecreaseCount(string product, string store, int count)
+        public override void DecreaseCount(string product, string store, int count)
         {
             int id = getStoreId(store);
             string command =
@@ -146,7 +146,7 @@ namespace Lab4
             sqlCommand.ExecuteNonQuery();
         }
 
-        public List<string> GetStoresList()
+        public override List<string> GetStoresList()
         {
             string command = "SELECT name FROM storeinfo.stores";
             MySqlCommand sqlCommand = new MySqlCommand(command, connection);
