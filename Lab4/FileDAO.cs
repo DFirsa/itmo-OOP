@@ -1,24 +1,26 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Net;
+using Org.BouncyCastle.Bcpg;
 
 namespace Lab4
 {
-    public class FileDAO
+    public class FileDAO : DAO
     {
         private StreamWriter writer;
         private StreamReader reader;
         private string pathStores;
         private string pathProducts;
 
-        private int id = 0;
+        private int id;
 
         public FileDAO(string fileNameStores, string fileNamePathProducts)
         {
             pathStores = $"..\\{fileNameStores}";
             pathProducts = $"..\\{fileNamePathProducts}";
+            id = 0;
         }
 
         private int getStoreId(string name)
@@ -36,6 +38,11 @@ namespace Lab4
 
             reader.Close();
             return id;
+        }
+
+        void DAO.CreateStore(string name)
+        {
+            CreateStore(name);
         }
 
         public int CreateStore(string name)
@@ -89,12 +96,40 @@ namespace Lab4
             writer.Close();
         }
 
-        //TODO need to fix
         public void DeliverShipment(List<Shipment> shipments, string store)
         {
+            int storeID = getStoreId(store);
             foreach (var shipment in shipments)
             {
-                CreateProduct(shipment.product, store, shipment.count, shipment.price);
+                if (storeID == -1 || !haveProduct(shipment.product, getStoreId(store)))
+                    CreateProduct(shipment.product, store, shipment.count, shipment.price);
+                else
+                {
+                    reader = File.OpenText(pathStores);
+                    List<string> fileData = new List<string>();
+
+                    string str;
+                    while ((str = reader.ReadLine()) != null)
+                    {
+                        string[] lines = str.Split(':');
+                        if (Int32.Parse(lines[1].Trim()) == storeID &&
+                            lines[1].Trim().Equals(shipment.product.ToLower().Trim()))
+                        {
+                            int number = Int32.Parse(lines[2].Trim()) + shipment.count;
+                            float price = float.Parse(lines[3].Trim());
+                            fileData.Add($"{storeID} : {lines[1]} : {number} : {price}");
+                        }
+                        else fileData.Add(str);
+                    }
+                    reader.Close();
+                    
+                    writer = new StreamWriter(pathProducts, false);
+                    foreach (var line in fileData)
+                    {
+                        writer.WriteLine(line);
+                    }
+                    writer.Close();
+                }
             }
         }
 
@@ -178,13 +213,15 @@ namespace Lab4
                         $"{id} : {lines[1].Trim()} : {Int32.Parse(lines[2].Trim()) - count} : {lines[3].Trim()}");
                 else fileData.Add(str);
             }
+
             reader.Close();
-            
+
             writer = new StreamWriter(pathProducts, false);
             foreach (var line in fileData)
             {
                 writer.WriteLine(line);
             }
+
             writer.Close();
         }
 
@@ -199,6 +236,7 @@ namespace Lab4
                 string[] lines = str.Split(':');
                 result.Add(lines[1].Trim());
             }
+
             reader.Close();
             return result;
         }
