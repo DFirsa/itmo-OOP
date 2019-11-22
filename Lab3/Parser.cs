@@ -15,7 +15,6 @@ namespace Lab3
             if (!path.Substring(path.IndexOf('.') + 1, path.Length - path.IndexOf('.') - 1).Equals("ini"))
                 throw new IniFileFormatException();
 
-
             try
             {
                 lines = File.ReadAllLines(path);

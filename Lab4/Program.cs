@@ -11,10 +11,6 @@ namespace Lab4
             client.addStores();
             client.addProducts();
             client.DeliverShipment();
-            client.FindCheapestStoreForProduct();
-            client.BuyingOportunity();
-            client.buyShipment();
-            client.cheapestStore();
         }
     }
 }

@@ -12,7 +12,6 @@ namespace Lab3
             Sections = new List<Section>();
         }
         
-        //My exception
         public Section this[string name]
         {
             get

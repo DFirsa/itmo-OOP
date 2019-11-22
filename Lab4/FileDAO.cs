@@ -20,9 +20,24 @@ namespace Lab4
         {
             pathStores = $"..\\{fileNameStores}";
             pathProducts = $"..\\{fileNamePathProducts}";
-            id = 0;
+            id = getStartId();
         }
 
+        int getStartId()
+        {
+            int id = 0;
+            reader = File.OpenText(pathStores);
+            string line;
+
+            while ((line = reader.ReadLine()) != null)
+            {
+                string[] lines = line.Split(':');
+                id = Int32.Parse(lines[0]) + 1;
+            }
+            reader.Close();
+            return id;
+        }
+        
         private int getStoreId(string name)
         {
             int id = -1;
@@ -32,8 +47,11 @@ namespace Lab4
             while ((line = reader.ReadLine()) != null)
             {
                 string[] lines = line.Split(':');
-                lines[2].Trim();
-                if (lines[2].Equals(name.ToLower())) id = Int32.Parse(lines[1]);
+                if (name.ToLower().Equals(lines[1].Trim().ToLower()))
+                {
+                    id = Int32.Parse(lines[0]);
+                    break;
+                }
             }
 
             reader.Close();
@@ -47,7 +65,7 @@ namespace Lab4
 
         public int MakeStore(string name)
         {
-            int sId = getStoreId(pathStores);
+            int sId = getStoreId(name);
             writer = File.AppendText(pathStores);
             if (sId == -1)
             {
@@ -68,9 +86,7 @@ namespace Lab4
             while ((str = reader.ReadLine()) != null)
             {
                 string[] lines = str.Split(':');
-                lines[0].Trim();
-                lines[1].Trim();
-                if (Int32.Parse(lines[0]) == store_id && lines[1].Equals(product.ToLower()))
+                if ((Int32.Parse(lines[0]) == store_id) && (lines[1].Equals(product.ToLower())))
                 {
                     result = true;
                     break;

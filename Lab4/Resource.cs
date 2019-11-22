@@ -37,7 +37,7 @@ namespace Lab4
     {
         public override Resource Create()
         {
-            return new FileDAO(@"..\..\stores.txt", @"..\..\products.txt");
+            return new FileDAO(@"..\stores.txt", @"..\products.txt");
         }
     }
 }
