@@ -5,7 +5,12 @@ namespace Lab4
 {
     public class Client
     {
-        private Service _service = new Service(false);
+        private readonly Service _service;
+        public Client(bool useDatabase)
+        {
+            _service = new Service(useDatabase);   
+        }
+         
 
         void show(List<string> lines, string title)
         {

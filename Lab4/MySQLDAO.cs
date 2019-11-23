@@ -25,7 +25,9 @@ namespace Lab4
 
         bool haveSomething(string command)
         {
+//            command = "SELECT * FROM shop WHERE name = @param";
             MySqlCommand sqlCommand = new MySqlCommand(command, connection);
+//            sqlCommand.Parameters.AddWithValue("@param", "hello world");
             int count = Int32.Parse(sqlCommand.ExecuteScalar().ToString());
 
             return count != 0;
