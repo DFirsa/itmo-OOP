@@ -40,7 +40,9 @@
 
         public Client GetClient()
         {
-            return client;
+            Client res = client;
+            Reset();
+            return res;
         }
     }
 

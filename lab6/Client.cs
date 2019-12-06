@@ -7,9 +7,13 @@
         private string address = null;
         private int passportNo = -1;
 
-        private Account account;
-        
-        
+        public Account account;
+
+        public bool isSuspicious()
+        {
+            if (surname == null || address == null) return true;
+            return false;
+        }
         
         public void addFullName(string name, string surname)
         {
@@ -33,6 +37,11 @@
             if (address != null) info = $" {info}, address: {address}";
             if (passportNo != -1) info = $" {info}, passport: {passportNo}";
             return info;
+        }
+
+        public void createAccount(Account acc)
+        {
+            account = acc;
         }
     }
 }

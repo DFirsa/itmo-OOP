@@ -6,17 +6,28 @@ namespace lab6
     public class Account
     {
         protected readonly double operationLimit;
-        protected readonly bool isSuspicious;
-        
+
         protected double balance;
         protected int percent; // %
 
-        public Account(bool isSuspicious, double operationLimit)
+        private Client Client;
+
+        public Account(double operationLimit, Client client)
         {
-            this.isSuspicious = isSuspicious;
+            Client = client;
             balance = 0;
             percent = 0;
             this.operationLimit = operationLimit;
+        }
+
+        public override string ToString()
+        {
+            return balance.ToString();
+        }
+
+        protected bool isSuspicious()
+        {
+            return Client.isSuspicious();
         }
 
         public void toRefill(double sum)
@@ -26,14 +37,14 @@ namespace lab6
 
         public virtual void toReplenish(double sum)
         {
-            if (isSuspicious && sum > operationLimit) throw new Exception();
-            else if (balance < sum) throw new Exception();
+            if (isSuspicious() && sum > operationLimit) throw new SuspiciousAccException();
+            else if (balance < sum) throw new NotEnoughMoneyException();
             else balance -= sum;
         }
 
         public virtual void transfer(double sum, Account recipient)
         {
-            if (isSuspicious && sum > operationLimit) throw new Exception();
+            if (isSuspicious() && sum > operationLimit) throw new SuspiciousAccException();
             else
             {
                 try
@@ -41,8 +52,9 @@ namespace lab6
                     toReplenish(sum);
                     recipient.toRefill(sum);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    Console.WriteLine(e.Message);
                     throw new Exception();
                 }
             }
@@ -56,26 +68,27 @@ namespace lab6
     
     public class Deposit: Account
     {
-        private int daysUntilEnd;
+        private DateTime depositEnd;
         
-        public Deposit(bool isSuspicious, double operationLimit, int percent, int daysUntilEnd) : base(isSuspicious, operationLimit)
+        public Deposit(double operationLimit, Client client, DateTime depositEnd, double startSum, int percent) : base(operationLimit, client)
         {
-            this.percent = percent;
-            this.daysUntilEnd = daysUntilEnd;
+            this.depositEnd = depositEnd;
+            base.percent = percent;
+            toRefill(startSum);
         }
 
         public override void toReplenish(double sum)
         {
-            if (daysUntilEnd > 0 ) throw new Exception();
+            if (DateTime.Now < depositEnd) throw new DepositTimeNotExpiredException();
             else base.toReplenish(sum);
         }
     }
     
     public class CurrentAccount: Account
     {
-        public CurrentAccount(bool isSuspicious, double operationLimit, int percent) : base(isSuspicious, operationLimit)
+        public CurrentAccount(double operationLimit, Client client, int percent) : base(operationLimit, client)
         {
-            this.percent = percent;
+            base.percent = percent;
         }
     }
     
@@ -83,16 +96,18 @@ namespace lab6
     {
         private double creditLimit;
         private int commission; // %
-        public CreditAccount(bool isSuspicious, double operationLimit, int commission) : base(isSuspicious, operationLimit)
+
+        public CreditAccount(double operationLimit, Client client, int commission, double creditLimit) : base(operationLimit, client)
         {
             this.commission = commission;
+            this.creditLimit = creditLimit;
         }
 
         public override void toReplenish(double sum)
         {
-            if (Math.Abs(balance) > creditLimit && balance <= 0) throw new Exception();
-            else if (isSuspicious && sum > operationLimit) throw new Exception();
-            else balance -= sum*((double)commission/100);
+            if (Math.Abs(balance - sum) > creditLimit && balance <= 0) throw new CreditLimitExceededException();
+            else if (isSuspicious() && sum > operationLimit) throw new SuspiciousAccException();
+            else balance -= sum*(1+(double)commission/100);
         }
 
         public override void transfer(double sum, Account recipient)
@@ -102,8 +117,9 @@ namespace lab6
                 toReplenish(sum);
                 recipient.toRefill(sum);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e.Message);
                 throw new Exception();
             }
         }
@@ -111,14 +127,54 @@ namespace lab6
 
     public abstract class AccountCreator
     {
-        public abstract Account CreateAccount();
+        protected double operationLimit;
+
+        public AccountCreator(double opLim)
+        {
+            operationLimit = opLim;
+        }
+        public abstract Account CreateAccount(int perc, Client client, double startSum);
     }
 
     public class DepositCreator : AccountCreator
     {
-        public override Account CreateAccount()
+        private TimeSpan duration;
+        public DepositCreator(double opLim, TimeSpan duration) : base(opLim)
         {
-            throw new NotImplementedException();
+            this.duration = duration;
+        }
+
+        public override Account CreateAccount(int perc, Client client, double startSum)
+        {
+            return new Deposit(operationLimit, client, DateTime.Now + duration, startSum, perc);
+        }
+    }
+
+    public class CurrentAccountCreator : AccountCreator
+    {
+        public CurrentAccountCreator(double opLim) : base(opLim)
+        {
+        }
+
+        public override Account CreateAccount(int perc, Client client, double startSum)
+        {
+            return new CurrentAccount(operationLimit, client, perc);
+        }
+    }
+    
+    public class CreditAccauntCreator: AccountCreator
+    {
+        private double creditLimit;
+        private int commision;
+        public CreditAccauntCreator(double opLim, double creditLimit, int commision) : base(opLim)
+        {
+            this.creditLimit = creditLimit;
+            this.commision = commision;
+        }
+
+        public override Account CreateAccount(int perc, Client client, double startSum)
+        {
+            return new CreditAccount(operationLimit, client, commision, creditLimit);
         }
     }
 }

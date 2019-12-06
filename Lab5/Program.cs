@@ -23,11 +23,11 @@ namespace Lab5
             xml.Serialize(xmlPath, triangle);
             Console.WriteLine(xml.Deserialize(xmlPath).ToString());
             
-            Console.WriteLine(" === Data Base === ");
-            DBTriangleSaver db = new DBTriangleSaver("localhost", 3306, "StoreInfo", "root", "qoe74859");
-            db.saveTriangle(triangle);
-            List<Triangle> triangles = db.getTriangles();
-            foreach (var tr in triangles) Console.WriteLine(tr.ToString());
+//            Console.WriteLine(" === Data Base === ");
+//            DBTriangleSaver db = new DBTriangleSaver("localhost", 3306, "StoreInfo", "root", "qoe74859");
+//            db.saveTriangle(triangle);
+//            List<Triangle> triangles = db.getTriangles();
+//            foreach (var tr in triangles) Console.WriteLine(tr.ToString());
         }
     }
 }
