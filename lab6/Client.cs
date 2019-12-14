@@ -8,27 +8,27 @@
         private int passportNo = -1;
 
         public Account account;
+        private ClientDecorator decorator = new ClientDecorator();
 
-        public bool isSuspicious()
-        {
-            if (surname == null || address == null) return true;
-            return false;
-        }
-        
+        public bool isSuspicious;
+
         public void addFullName(string name, string surname)
         {
             this.name = name;
             this.surname = surname;
+            decorator.decorate(this);
         }
 
         public void addAdress(string adress)
         {
             this.address = adress;
+            decorator.decorate(this);
         }
 
         public void addPassportNo(int passportNo)
         {
             this.passportNo = passportNo;
+            decorator.decorate(this);
         }
 
         public override string ToString()
@@ -42,6 +42,16 @@
         public void createAccount(Account acc)
         {
             account = acc;
+        }
+    }
+    
+    public class ClientDecorator
+    {
+        public void decorate(Client client)
+        {
+            if (client.ToString().Contains("address:") && client.ToString().Contains("passport:"))
+                client.isSuspicious = false;
+            else client.isSuspicious = true;
         }
     }
 }

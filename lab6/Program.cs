@@ -17,7 +17,7 @@ namespace lab6
             clientCreator.CreateFullInfoClient("Lupa", "Petrov", "Eindhoven, unknown street, some kind of house", 123456);
             Client Lupa = builder.GetClient();
             
-            TimeSpan t = new TimeSpan(92, 0, 0, 0);
+            TimeSpan t = new TimeSpan(0, 0, 0, 0);
             List<double> sumInfo = new List<double>(){0, 1000, 10000};
             List<int> percentInfo = new List<int>(){1, 3, 7};
             
