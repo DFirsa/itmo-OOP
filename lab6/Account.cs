@@ -49,8 +49,10 @@ namespace lab6
             {
                 try
                 {
-                    toReplenish(sum);
-                    recipient.toRefill(sum);
+                    TransactionHandler transaction = new ReplanishHandler(this);
+                    TransactionHandler refill = new RefillHandler(recipient);
+                    transaction.setNext(refill);
+                    transaction.handleRequest(sum);
                 }
                 catch (Exception e)
                 {
@@ -114,8 +116,10 @@ namespace lab6
         {
             try
             {
-                toReplenish(sum);
-                recipient.toRefill(sum);
+                TransactionHandler transaction = new ReplanishHandler(this);
+                TransactionHandler refill = new RefillHandler(recipient);
+                transaction.setNext(refill);
+                transaction.handleRequest(sum);
             }
             catch (Exception e)
             {

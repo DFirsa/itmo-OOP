@@ -2,16 +2,15 @@
 {
     public class Client: IBuilder
     {
-        private string name = null;
-        private string surname = null;
-        private string address = null;
-        private int passportNo = -1;
+        public string name = null;
+        public string surname = null;
+        public string address = null;
+        public int passportNo = -1;
 
         public Account account;
 
-        public bool isSuspicious()
+        public virtual bool isSuspicious()
         {
-            if (surname == null || address == null) return true;
             return false;
         }
         
@@ -42,6 +41,22 @@
         public void createAccount(Account acc)
         {
             account = acc;
+        }
+    }
+
+    public class SuspiciousClient : Client
+    {
+        public SuspiciousClient(Client client)
+        {
+            name = client.name;
+            surname = client.surname;
+            passportNo = client.passportNo;
+            address = client.address;
+        }
+
+        public override bool isSuspicious()
+        {
+            return true;
         }
     }
 }

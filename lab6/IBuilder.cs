@@ -1,4 +1,6 @@
-﻿namespace lab6
+﻿using System.Linq;
+
+namespace lab6
 {
     public interface IBuilder
     {
@@ -40,7 +42,14 @@
 
         public Client GetClient()
         {
-            Client res = client;
+            Client res;
+            if (client.ToString().Contains("address:") && client.ToString().Contains("passport:")) res = client;
+            else
+            {
+                SuspiciousClient suspiciousClient = new SuspiciousClient(client);
+                res = suspiciousClient;
+            }
+            
             Reset();
             return res;
         }
