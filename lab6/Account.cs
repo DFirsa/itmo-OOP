@@ -27,22 +27,24 @@ namespace lab6
 
         protected bool isSuspicious()
         {
-            return Client.isSuspicious();
+            return Client.isSuspicious;
         }
 
-        public void toRefill(double sum)
+        public virtual Account toRefill(double sum)
         {
             balance += sum;
+            return this;
         }
 
-        public virtual void toReplenish(double sum)
+        public virtual Account toReplenish(double sum)
         {
             if (isSuspicious() && sum > operationLimit) throw new SuspiciousAccException();
             else if (balance < sum) throw new NotEnoughMoneyException();
             else balance -= sum;
+            return this;
         }
 
-        public virtual void transfer(double sum, Account recipient)
+        public virtual Account transfer(double sum, Account recipient)
         {
             if (isSuspicious() && sum > operationLimit) throw new SuspiciousAccException();
             else
@@ -60,6 +62,8 @@ namespace lab6
                     throw new Exception();
                 }
             }
+
+            return this;
         }
 
         public void interestPayment(double sum)
@@ -79,10 +83,11 @@ namespace lab6
             toRefill(startSum);
         }
 
-        public override void toReplenish(double sum)
+        public override Account toReplenish(double sum)
         {
             if (DateTime.Now < depositEnd) throw new DepositTimeNotExpiredException();
             else base.toReplenish(sum);
+            return this;
         }
     }
     
@@ -98,21 +103,28 @@ namespace lab6
     {
         private double creditLimit;
         private int commission; // %
-
+        
         public CreditAccount(double operationLimit, Client client, int commission, double creditLimit) : base(operationLimit, client)
         {
             this.commission = commission;
             this.creditLimit = creditLimit;
         }
-
-        public override void toReplenish(double sum)
+        
+        public Account taxPayment(double sum)
         {
-            if (Math.Abs(balance - sum) > creditLimit && balance <= 0) throw new CreditLimitExceededException();
-            else if (isSuspicious() && sum > operationLimit) throw new SuspiciousAccException();
-            else balance -= sum*(1+(double)commission/100);
+            balance -= sum * ((double) commission / 100);
+            return this;
         }
 
-        public override void transfer(double sum, Account recipient)
+        public override Account toReplenish(double sum)
+        {
+            if (Math.Abs(balance - sum) > creditLimit && (balance - sum) <= 0) throw new CreditLimitExceededException();
+            if (isSuspicious() && sum > operationLimit) throw new SuspiciousAccException();
+            taxPayment(sum).toReplenish(sum);
+            return this;
+        }
+
+        public override Account transfer(double sum, Account recipient)
         {
             try
             {
@@ -126,6 +138,8 @@ namespace lab6
                 Console.WriteLine(e.Message);
                 throw new Exception();
             }
+
+            return this;
         }
     }
 
